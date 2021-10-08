@@ -13,9 +13,9 @@ def index():
 
 @app.route('/home')
 def home():
-    logo_path = os.path.join(image_folder, 'logo.jpg')
     cart_empty_path = os.path.join(image_folder, 'cart_empty.jpg')
-    return render_template("home.html", logo_img=logo_path, cart_empty_img=cart_empty_path)
+    user_name = "Login"
+    return render_template("home.html", cart_empty_img=cart_empty_path, user_name=user_name)
 
 
 if __name__ == '__main__':
