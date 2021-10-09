@@ -3,6 +3,12 @@ By Audrey Chuakay, Evaristo Rodriguez, and Robert Esposito
 
 ## Helpful Links
 
+**Python:**
+
+https://www.python.org/downloads/
+
+https://www.jetbrains.com/pycharm/
+
 
 **Flask documentation:**
 
