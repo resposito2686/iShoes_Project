@@ -1,7 +1,7 @@
 # CompE 561 - iShoe Project
 By Audrey Chuakay, Evaristo Rodriguez, and Robert Esposito
 
-#### Helpful Links
+## Helpful Links
 
 **Flask documentation:** 
 
