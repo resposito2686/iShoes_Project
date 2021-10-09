@@ -13,9 +13,9 @@ def index():
 
 @app.route('/home')
 def home():
-    cart_empty_path = os.path.join(image_folder, 'cart_empty.jpg')
+    # REPLACE LATER WITH USERNAME LOGIC
     user_name = "Login"
-    return render_template("home.html", cart_empty_img=cart_empty_path, user_name=user_name)
+    return render_template("home.html", user_name=user_name)
 
 
 if __name__ == '__main__':
