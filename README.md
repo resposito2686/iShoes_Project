@@ -3,6 +3,12 @@ By Audrey Chuakay, Evaristo Rodriguez, and Robert Esposito
 
 ## Helpful Links
 
+**Python:**
+
+https://www.python.org/downloads/
+
+https://www.jetbrains.com/pycharm/
+
 
 **Flask documentation:**
 
@@ -29,4 +35,4 @@ https://getbootstrap.com/docs/5.0/examples/
 
 https://www.w3schools.com/bootstrap5/index.php
                  
-
+## TEST EDIT
