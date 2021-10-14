@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import render_template, redirect, url_for
+from flask_mysqldb import MySQL
 import os
 
 app = Flask(__name__)
@@ -7,6 +8,26 @@ image_folder = os.path.join('static', 'images')
 user_name = 'Login'
 active_page = ''
 cart_empty = True
+
+
+# TODO - install flask_mysqldb by typing 'pip install flask_mysqldb' in your command prompt
+# DATABASE IP ADDRESS
+app.config['MYSQL_HOST'] = 'localhost'
+
+# DATABASE USER NAME
+app.config['MYSQL_USER'] = 'root'
+
+# DATABASE PASSWORD
+app.config['MYSQL_PASSWORD'] = ''
+
+# SCHEMA NAME
+app.config['MYSQL_DB'] = ''
+
+mysql = MySQL(app)
+if mysql:
+    print("Connection Successful!")
+else:
+    print('Connection Failed!')
 
 
 @app.route('/')
@@ -18,9 +39,16 @@ def index():
 def home():
     global active_page, user_name, cart_empty
 
+    ''' 
+    EXAMPLE MySQL QUERY
+        cursor = mysql.connection.cursor()    <-- CURSOR FOR QUERIES
+        cursor.execute("SELECT * from table") <-- QUERY GOES HERE
+        sql_data = cursor.fetchone()          <-- DATA RETURNED AS TUPLE
+    '''
+
     active_page = 'home'
     cart_empty = True
-    return render_template("home.html", active=active_page, user_name=user_name, cart_empty=cart_empty)
+    return render_template("home.html", active=active_page, cart_empty=cart_empty, user_name=user_name)
 
 
 @app.route('/shop')
