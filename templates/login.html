@@ -10,7 +10,27 @@
 
 {% block body %}
     <!-- HTML content for this page goes here! -->
-
-    <!-- This is just a placeholder -->
-    <p class=" h1 text-center">Login</p>
+    {% if user_name == 'Login' %}
+    <div class="container col-3 mt-5">
+        <form method="POST">
+            <div class="mb-3">
+                <label for="userNameInput" class="form-label">Username</label>
+                <input type="text" class="form-control" id="userNameInput" name="userNameInput">
+            </div>
+            <div class="mb-3">
+                <label for="passwordInput" class="form-label">Password</label>
+                <input type="password" class="form-control" id="passwordInput" name="passwordInput">
+            </div>
+            <div class="row justify-content-between">
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </div>
+                <div class="col-auto">
+                    <button type="button" onclick="location.href='/home'" class="btn btn-primary">Sign Up</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% else %}
+    {% endif %}
 {% endblock %}

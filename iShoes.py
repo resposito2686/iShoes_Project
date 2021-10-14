@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request
 from flask_mysqldb import MySQL
 import os
 
@@ -69,13 +69,24 @@ def create():
     return render_template("create.html", active=active_page, user_name=user_name, cart_empty=cart_empty)
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     global active_page, user_name, cart_empty
 
     active_page = 'login'
     cart_empty = True
+
+    if request.method == 'POST':
+        user_name = request.form['userNameInput']
+        password = request.form['passwordInput']
+        print(user_name)
+        print(password)
+
     return render_template("login.html", active=active_page, user_name=user_name, cart_empty=cart_empty)
+
+
+# @app.route('/<user>')
+# def user(user):
 
 
 if __name__ == '__main__':
