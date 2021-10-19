@@ -31,11 +31,6 @@ else:
 
 @app.route('/')
 def index():
-    #:  EXAMPLE MySQL QUERY
-    #:    connect = mysql.connect()             <-- CURSOR FOR QUERIES
-    #:    cursor.execute("SELECT * from table") <-- QUERY GOES HERE
-    #:    sql_data = cursor.fetchone()          <-- DATA RETURNED AS TUPLE
-
     return redirect(url_for('home'))
 
 
@@ -75,42 +70,10 @@ def login():
         #:  Password is ran through SHA512 hashing algorithm for security
         password = hashlib.sha512(request.form['passwordInput'].encode('utf-8')).hexdigest()
 
-        #:  --- How to insert data into a MySQL database ---
-        #:  try block to catch any connection errors that could result in a crash
-        try:
-            #:  cursor used to execute commands
-            cursor = mysql.connection.cursor()
-
-            #:  execute() function arguments are ("""MySQL Query""", (Python variables and literals))
-            #:
-            #:  values are ALWAYS %s, which is placeholder value that will be filled by the Python variables
-            #:  and literals
-            #:
-            #:  Python variables and literals are a Tuple with data indexed in the same order it appears in the MySQL
-            #:  query.
-            cursor.execute("""INSERT into 
-                            users (
-                                addressCity,
-                                addressNum,
-                                addressState,
-                                addressStreet,
-                                addressZip,
-                                emailAddress,
-                                firstName,
-                                lastName,
-                                password,
-                                phoneNumber,
-                                userName)
-                            values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
-                           ('San Diego', '123', 'CA', 'Fake Street', '92115', 'johndoe@gmail.com', 'John', 'Doe',
-                            password, '6195555555', user_name))
-
-            #:  commit changes to MySQL database
-            mysql.connection.commit()
-
-        #:  except block to print any connection errors that may occur.
-        except Exception as e:
-            print('Error insert data in table...' + str(e))
+        #:  EXAMPLE MySQL QUERY
+        #:    connect = mysql.connect()             <-- CURSOR FOR QUERIES
+        #:    cursor.execute("SELECT * from table") <-- QUERY GOES HERE
+        #:    sql_data = cursor.fetchone()          <-- DATA RETURNED AS TUPLE
 
     return render_template("login.html", user_name=user_name, cart_empty=cart_empty)
 
@@ -135,6 +98,41 @@ def create_account():
         city = request.form['city']
         state = request.form['state']
         zip_code = request.form['zipCode']
+
+        #:  --- How to insert data into a MySQL database ---
+        #:  try block to catch any connection errors that could result in a crash
+        try:
+            #:  cursor used to execute commands
+            cursor = mysql.connection.cursor()
+
+            #:  execute() function arguments are ("""MySQL Query""", (Python variables and literals))
+            #:
+            #:  values are ALWAYS %s, which is placeholder value that will be filled by the Python variables
+            #:  and literals
+            #:
+            #:  Python variables and literals are a Tuple with data indexed in the same order it appears in the MySQL
+            #:  query.
+            cursor.execute("""INSERT into 
+                            users (
+                                address,
+                                city,
+                                emailAddress,
+                                firstName,
+                                lastName,
+                                password,
+                                state,
+                                userName,
+                                zipCode)
+                                values (%s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+                           (address, city, email_address, first_name, last_name, password, state,
+                            user_name, zip_code))
+
+            #:  commit changes to MySQL database
+            mysql.connection.commit()
+
+        #:  except block to print any connection errors that may occur.
+        except Exception as e:
+            print('Error insert data in table...' + str(e))
 
         print(user_name)
         print(password_match)
