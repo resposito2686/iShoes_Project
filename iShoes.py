@@ -115,6 +115,39 @@ def login():
     return render_template("login.html", user_name=user_name, cart_empty=cart_empty)
 
 
+@app.route('/create_account', methods=['GET', 'POST'])
+def create_account():
+    global user_name, cart_empty
+
+    cart_empty = True
+    password_match = True
+
+    if request.method == 'POST':
+        user_name = request.form['userNameInput']
+        password = hashlib.sha512(request.form['passwordInput'].encode('utf-8')).hexdigest()
+        password_ver = hashlib.sha512(request.form['passwordInputVer'].encode('utf-8')).hexdigest()
+        if password != password_ver:
+            password_match = False
+        email_address = request.form['emailAddress']
+        first_name = request.form['firstName']
+        last_name = request.form['lastName']
+        address = request.form['address']
+        city = request.form['city']
+        state = request.form['state']
+        zip_code = request.form['zipCode']
+
+        print(user_name)
+        print(password_match)
+        print(email_address)
+        print(first_name)
+        print(last_name)
+        print(address)
+        print(city)
+        print(state)
+        print(zip_code)
+
+    return render_template("create_account.html", user_name=user_name, cart_empty=cart_empty)
+
 # @app.route('/<user>')
 # def user(user):
 
