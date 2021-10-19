@@ -6,8 +6,7 @@ import hashlib
 
 app = Flask(__name__)
 image_folder = os.path.join('static', 'images')
-user_name = 'Login'
-active_page = ''
+user_name = 'Guest'
 cart_empty = True
 
 #:  TODO - install flask_mysqldb by typing 'pip install flask_mysqldb' in your command prompt
@@ -42,36 +41,32 @@ def index():
 
 @app.route('/home')
 def home():
-    global active_page, user_name, cart_empty
+    global user_name, cart_empty
 
-    active_page = 'home'
     cart_empty = True
-    return render_template("home.html", active=active_page, cart_empty=cart_empty, user_name=user_name)
+    return render_template("home.html", cart_empty=cart_empty, user_name=user_name)
 
 
 @app.route('/shop')
 def shop():
-    global active_page, user_name, cart_empty
+    global user_name, cart_empty
 
-    active_page = 'shop'
     cart_empty = True
-    return render_template("shop.html", active=active_page, user_name=user_name, cart_empty=cart_empty)
+    return render_template("shop.html", user_name=user_name, cart_empty=cart_empty)
 
 
-@app.route('/create')
-def create():
-    global active_page, user_name, cart_empty
+@app.route('/cart')
+def cart():
+    global user_name, cart_empty
 
-    active_page = 'create'
     cart_empty = False
-    return render_template("create.html", active=active_page, user_name=user_name, cart_empty=cart_empty)
+    return render_template("cart.html", user_name=user_name, cart_empty=cart_empty)
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    global active_page, user_name, cart_empty
+    global user_name, cart_empty
 
-    active_page = 'login'
     cart_empty = True
 
     if request.method == 'POST':
@@ -117,7 +112,7 @@ def login():
         except Exception as e:
             print('Error insert data in table...' + str(e))
 
-    return render_template("login.html", active=active_page, user_name=user_name, cart_empty=cart_empty)
+    return render_template("login.html", user_name=user_name, cart_empty=cart_empty)
 
 
 # @app.route('/<user>')
