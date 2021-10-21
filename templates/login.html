@@ -9,7 +9,13 @@
 {% endblock %}
 
 {% block body %}
-    <!-- HTML content for this page goes here! -->
+    {% if error != None %}
+    <p class="fs-5 text-danger text-center mt-5">
+        {% if error == 'user' %}Username not found
+        {% elif error == 'password' %}Password is incorrect
+        {% else %}Unknown error
+        {% endif %}, please try again.</p>
+    {% endif %}
     <div class="container col-3 mt-5">
         <form method="POST">
             <div class="mb-3">
