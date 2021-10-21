@@ -25,9 +25,9 @@ DROP TABLE IF EXISTS `payments`;
 CREATE TABLE `payments` (
   `paymentID` int unsigned NOT NULL AUTO_INCREMENT,
   `userID` int unsigned NOT NULL,
-  `cardType` varchar(45) COLLATE utf8_bin NOT NULL,
-  `cardNumber` varchar(16) COLLATE utf8_bin NOT NULL,
-  `cardName` varchar(50) COLLATE utf8_bin NOT NULL,
+  `cardType` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `cardNumber` varchar(16) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `cardName` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `cardSecurityNum` int unsigned NOT NULL,
   `cardExpDate` date NOT NULL,
   `cardZipcode` int NOT NULL,
@@ -55,8 +55,8 @@ DROP TABLE IF EXISTS `shoes`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `shoes` (
   `shoeID` int unsigned NOT NULL AUTO_INCREMENT,
-  `shoeBrand` varchar(45) COLLATE utf8_bin DEFAULT NULL,
-  `shoeColor` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  `shoeBrand` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `shoeColor` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `shoePrice` decimal(3,2) unsigned zerofill DEFAULT NULL,
   `shoeSize` int unsigned DEFAULT NULL,
   `stockAmount` int unsigned DEFAULT NULL,
@@ -110,16 +110,17 @@ DROP TABLE IF EXISTS `users`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
   `userID` int unsigned NOT NULL AUTO_INCREMENT,
-  `userName` varchar(45) COLLATE utf8_bin NOT NULL,
-  `password` varchar(45) COLLATE utf8_bin NOT NULL,
-  `firstName` varchar(45) COLLATE utf8_bin NOT NULL,
-  `lastName` varchar(45) COLLATE utf8_bin NOT NULL,
-  `emailAddress` varchar(45) COLLATE utf8_bin NOT NULL,
-  `phoneNumber` varchar(45) COLLATE utf8_bin NOT NULL,
-  `billingAddress` varchar(45) COLLATE utf8_bin NOT NULL,
-  `shippingAddress` varchar(45) COLLATE utf8_bin NOT NULL,
+  `userName` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `password` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `firstName` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `lastName` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `emailAddress` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `address` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `city` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  `state` varchar(2) COLLATE utf8_bin DEFAULT NULL,
+  `zipCode` varchar(5) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`userID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,7 +129,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'test_user_name','12341234','John','Doe','johndoe00@gmail.com','6195555555','123 Fake Street San Diego CA 92182','123 Fake Street San Diego CA 92182');
+INSERT INTO `users` VALUES (2,'test_user','bf400c2a1cbc2c5536aec42018864edb5738ed69bf5488a017a1aead21f888ae05a13c2f30de004a4a6fa4eedeb8c8d62f79712a4f8489e7eca408e57b36c250','John','Doe','test_user@email.com','123 Fake Street','San Diego','CA','92810');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -141,4 +142,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-15  0:03:15
+-- Dump completed on 2021-10-20 18:09:11
