@@ -1,12 +1,19 @@
-from flask import Flask
-from flask import render_template, redirect, url_for, request
-from flask_mysqldb import MySQL
 import os
 import hashlib
 
+from flask import Flask
+from flask import render_template
+from flask import redirect
+from flask import url_for
+from flask import request
+from flask import session
+
+from flask_mysqldb import MySQL
+
+
 app = Flask(__name__)
+app.secret_key = '11b8514a4f71eb68bf34a3a0'
 image_folder = os.path.join('static', 'images')
-user_name = 'Guest'
 cart_empty = True
 
 #:  TODO - install flask_mysqldb by typing 'pip install flask_mysqldb' in your command prompt
@@ -24,44 +31,49 @@ app.config['MYSQL_DB'] = 'ishoesdb'
 
 mysql = MySQL(app)
 if mysql:
-    print("Connection Successful!")
+    print('Connection Successful!')
 else:
     print('Connection Failed!')
 
 
 @app.route('/')
 def index():
+    session.clear()
     return redirect(url_for('home'))
 
 
 @app.route('/home')
 def home():
-    global user_name, cart_empty
+    global cart_empty
 
     cart_empty = True
-    return render_template("home.html", cart_empty=cart_empty, user_name=user_name)
+    if 'user_name' not in session:
+        session['user_name'] = 'Guest'
+
+    return render_template('home.html', cart_empty=cart_empty, user_name=session['user_name'])
 
 
 @app.route('/shop')
 def shop():
-    global user_name, cart_empty
+    global cart_empty
 
     cart_empty = True
-    return render_template("shop.html", user_name=user_name, cart_empty=cart_empty)
+    return render_template('shop.html', user_name=session['user_name'], cart_empty=cart_empty)
 
 
 @app.route('/cart')
 def cart():
-    global user_name, cart_empty
+    global cart_empty
 
     cart_empty = False
-    return render_template("cart.html", user_name=user_name, cart_empty=cart_empty)
+    return render_template('cart.html', user_name=session['user_name'], cart_empty=cart_empty)
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    global user_name, cart_empty
+    global cart_empty
 
+    error = None
     cart_empty = True
 
     if request.method == 'POST':
@@ -71,16 +83,33 @@ def login():
         password = hashlib.sha512(request.form['passwordInput'].encode('utf-8')).hexdigest()
 
         #:  EXAMPLE MySQL QUERY
-        #:    connect = mysql.connect()             <-- CURSOR FOR QUERIES
-        #:    cursor.execute("SELECT * from table") <-- QUERY GOES HERE
-        #:    sql_data = cursor.fetchone()          <-- DATA RETURNED AS TUPLE
+        cursor = mysql.connection.cursor()                                      # <-- CURSOR FOR QUERIES
+        cursor.execute('SELECT * from users WHERE userName = %s', [user_name])  # <-- QUERY GOES HERE
+        sql_data = cursor.fetchone()                                            # <-- DATA RETURNED AS TUPLE
+        print(sql_data)
 
-    return render_template("login.html", user_name=user_name, cart_empty=cart_empty)
+        if sql_data is not None:
+            if sql_data[2] == password:
+                session['user_name'] = user_name
+                return redirect(url_for('home'))
+            else:
+                error = 'password'
+        else:
+            error = 'user'
+    return render_template('login.html', user_name=session['user_name'], error=error, cart_empty=cart_empty)
+
+
+@app.route('/account')
+def account():
+    global cart_empty
+
+    cart_empty = False
+    return render_template('account.html', user_name=session['user_name'])
 
 
 @app.route('/create_account', methods=['GET', 'POST'])
 def create_account():
-    global user_name, cart_empty
+    global cart_empty
 
     cart_empty = True
     password_match = True
@@ -105,27 +134,17 @@ def create_account():
             #:  cursor used to execute commands
             cursor = mysql.connection.cursor()
 
-            #:  execute() function arguments are ("""MySQL Query""", (Python variables and literals))
+            #:  execute() function arguments are ('''MySQL Query''', (Python variables and literals))
             #:
             #:  values are ALWAYS %s, which is placeholder value that will be filled by the Python variables
             #:  and literals
             #:
             #:  Python variables and literals are a Tuple with data indexed in the same order it appears in the MySQL
             #:  query.
-            cursor.execute("""INSERT into 
-                            users (
-                                address,
-                                city,
-                                emailAddress,
-                                firstName,
-                                lastName,
-                                password,
-                                state,
-                                userName,
-                                zipCode)
-                                values (%s, %s, %s, %s, %s, %s, %s, %s, %s)""",
-                           (address, city, email_address, first_name, last_name, password, state,
-                            user_name, zip_code))
+            cursor.execute('INSERT into users '
+                           '(userName, password, firstName, lastName, emailAddress, address, city, state, zipCode) '
+                           'values (%s, %s, %s, %s, %s, %s, %s, %s, %s)',
+                           (user_name, password, first_name, last_name, email_address, address, city, state, zip_code))
 
             #:  commit changes to MySQL database
             mysql.connection.commit()
@@ -144,7 +163,7 @@ def create_account():
         print(state)
         print(zip_code)
 
-    return render_template("create_account.html", user_name=user_name, cart_empty=cart_empty)
+    return render_template('create_account.html', user_name={session['user_name']}, cart_empty=cart_empty)
 
 # @app.route('/<user>')
 # def user(user):
