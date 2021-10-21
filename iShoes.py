@@ -83,6 +83,7 @@ def login():
         password = hashlib.sha512(request.form['passwordInput'].encode('utf-8')).hexdigest()
 
         #:  EXAMPLE MySQL QUERY
+        #:  Please see the 'create_account' function for more detail.
         cursor = mysql.connection.cursor()                                      # <-- CURSOR FOR QUERIES
         cursor.execute('SELECT * from users WHERE userName = %s', [user_name])  # <-- QUERY GOES HERE
         sql_data = cursor.fetchone()                                            # <-- DATA RETURNED AS TUPLE
@@ -139,12 +140,12 @@ def create_account():
             #:  values are ALWAYS %s, which is placeholder value that will be filled by the Python variables
             #:  and literals
             #:
-            #:  Python variables and literals are a Tuple with data indexed in the same order it appears in the MySQL
+            #:  Python variables and literals are a List with data indexed in the same order it appears in the MySQL
             #:  query.
             cursor.execute('INSERT into users '
                            '(userName, password, firstName, lastName, emailAddress, address, city, state, zipCode) '
                            'values (%s, %s, %s, %s, %s, %s, %s, %s, %s)',
-                           (user_name, password, first_name, last_name, email_address, address, city, state, zip_code))
+                           [user_name, password, first_name, last_name, email_address, address, city, state, zip_code])
 
             #:  commit changes to MySQL database
             mysql.connection.commit()
