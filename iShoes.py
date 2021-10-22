@@ -114,6 +114,7 @@ def create_account():
 
     cart_empty = True
     password_match = True
+    user_match = False
 
     if request.method == 'POST':
         user_name = request.form['userNameInput']
@@ -136,38 +137,45 @@ def create_account():
             cursor = mysql.connection.cursor()
 
             #:  execute() function arguments are ('''MySQL Query''', (Python variables and literals))
-            #:
-            #:  values are ALWAYS %s, which is placeholder value that will be filled by the Python variables
-            #:  and literals
-            #:
-            #:  Python variables and literals are a List with data indexed in the same order it appears in the MySQL
-            #:  query.
-            cursor.execute('INSERT into users '
-                           '(userName, password, firstName, lastName, emailAddress, address, city, state, zipCode) '
-                           'values (%s, %s, %s, %s, %s, %s, %s, %s, %s)',
-                           [user_name, password, first_name, last_name, email_address, address, city, state, zip_code])
+            cursor.execute('SELECT * from users WHERE userName = %s', [user_name])
 
-            #:  commit changes to MySQL database
-            mysql.connection.commit()
+            #: The query data is fetched and stored in the variable 'data'
+            data = cursor.fetchone()
+            print(data)
+
+            if data is None:
+
+                #:  values being placed into a table are ALWAYS %s, which is placeholder that will be filled by the
+                #   Python variables and literals in the function argument.
+                #:
+                #:  Python variables and literals are a List with data indexed in the same order it appears in the
+                #   MySQL query.
+                cursor.execute('INSERT into users '
+                               '(userName, password, firstName, lastName, emailAddress, address, city, state, zipCode) '
+                               'values (%s, %s, %s, %s, %s, %s, %s, %s, %s)',
+                               [user_name, password, first_name, last_name, email_address, address, city, state,
+                                zip_code])
+
+                #:  commit table changes to the MySQL database
+                mysql.connection.commit()
+
+                session['user_name'] = user_name
+                return redirect(url_for('account'))
+            else:
+                user_match = True
 
         #:  except block to print any connection errors that may occur.
         except Exception as e:
             print('Error insert data in table...' + str(e))
 
-        print(user_name)
-        print(password_match)
-        print(email_address)
-        print(first_name)
-        print(last_name)
-        print(address)
-        print(city)
-        print(state)
-        print(zip_code)
+    return render_template('create_account.html', user_name=session['user_name'], user_match=user_match,
+                           password_match=password_match, cart_empty=cart_empty)
 
-    return render_template('create_account.html', user_name={session['user_name']}, cart_empty=cart_empty)
 
-# @app.route('/<user>')
-# def user(user):
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('home'))
 
 
 if __name__ == '__main__':

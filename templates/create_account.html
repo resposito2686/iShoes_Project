@@ -10,6 +10,13 @@
 
 {% block body %}
     <p class="h2 mt-5 text-center">Create an iShoes Account</p>
+    {% if user_match %}
+    <p class="fs-5 text-danger text-center mt-5">Username is already in use, please select another.</p>
+    {% endif %}
+    {% if not password_match %}
+    <p class="fs-5 text-danger text-center mt-5">Passwords do not match, please enter them again.</p>
+    {% endif %}
+
     <div class="container col-6 mt-5">
         <form method="POST">
             <div class="mb-3 col-6">
