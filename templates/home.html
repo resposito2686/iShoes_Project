@@ -9,7 +9,8 @@
 {% endblock %}
 
 {% block body %}
-    <p class="h1 text-center">iShoes</p>
+    <link href="carousel.css" rel="stylesheet">
+   <p class="h1 text-center">iShoes</p>
 
     <hr>
 
@@ -18,8 +19,96 @@
         <h1 class="display-4">Where the shoes from your dreams, come true</h1>
         <p class="lead">Add slide show of interactive photos </p>
         <hr class="my-4">
-        <p>Here we can put another catch phrase I guess</p>
+        <p>Attach catchphrase which would attract customers</p>
           <a class="btn btn-danger btn-lg" href="#" role="button">Learn more</a>
       </div>
     </div>
+<main>
+
+  <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active" style= "background-image:url('Miami.jpg');">
+       
+        <div class="container">
+          <div class="carousel-caption text-start">
+            <h1>iShoes design 1</h1>
+            <p>Where the shoes of your dreams come true.</p>
+            <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item" style= "background-image:url('colors.jpg');">
+        
+        <div class="container">
+          <div class="carousel-caption">
+            <h1>Another ishoes unique design</h1>
+            <p>Each design comes with more than just new colors</p>
+            <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item" style= "background-image:url('dragons.jpg');">
+        
+		
+        <div class="container">
+          <div class="carousel-caption text-end">
+            <h1>Another ishoes unique design</h1>
+            <p>Our company wants to make you love shoes just as much as we do</p>
+            <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+
+ 
+  <div class="container marketing">
+
+    <div class="row">
+      <div class="col-lg-4">
+        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+
+        <h2>Founder 1</h2>
+        <p>Robert </p>
+        <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+      </div>
+      <div class="col-lg-4">
+        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+
+        <h2>Founder 2</h2>
+        <p>Audrey</p>
+        <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+      </div>
+      <div class="col-lg-4">
+        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+
+        <h2>Founder 3</h2>
+        <p>Evaristo</p>
+        <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- FOOTER -->
+  <footer class="container">
+    <p class="float-end"><a href="#">Back to top</a></p>
+    <p>&copy; 2021 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+  </footer>
+</main>
+
 {% endblock %}
