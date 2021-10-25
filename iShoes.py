@@ -39,42 +39,44 @@ else:
 @app.route('/')
 def index():
     session.clear()
+    session['cart_count'] = 0
     return redirect(url_for('home'))
 
 
 @app.route('/home')
 def home():
-    global cart_empty
-
-    cart_empty = True
     if 'user_name' not in session:
         session['user_name'] = 'Guest'
 
-    return render_template('home.html', cart_empty=cart_empty, user_name=session['user_name'])
+    return render_template('home.html', user_name=session['user_name'], cart_count=session['cart_count'])
 
 
-@app.route('/shop')
+@app.route('/shop', methods=['GET', 'POST'])
 def shop():
-    global cart_empty
-
-    cart_empty = True
-    return render_template('shop.html', user_name=session['user_name'], cart_empty=cart_empty)
+    return render_template('shop.html', user_name=session['user_name'], cart_count=session['cart_count'])
 
 
 @app.route('/cart')
 def cart():
-    global cart_empty
+    return render_template('cart.html', user_name=session['user_name'], cart_count=session['cart_count'])
 
-    cart_empty = False
-    return render_template('cart.html', user_name=session['user_name'], cart_empty=cart_empty)
+
+@app.route('/add_cart')
+def add_cart():
+    session['cart_count'] += 1
+    return redirect(url_for('shop'))
+
+
+@app.route('/remove_cart')
+def remove_cart():
+    if session['cart_count'] > 0:
+        session['cart_count'] -= 1
+    return redirect(url_for('cart'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    global cart_empty
-
     error = None
-    cart_empty = True
 
     if request.method == 'POST':
         user_name = request.form['userNameInput']
@@ -97,22 +99,16 @@ def login():
                 error = 'password'
         else:
             error = 'user'
-    return render_template('login.html', user_name=session['user_name'], error=error, cart_empty=cart_empty)
+    return render_template('login.html', user_name=session['user_name'], cart_count=session['cart_count'], error=error)
 
 
 @app.route('/account')
 def account():
-    global cart_empty
-
-    cart_empty = False
-    return render_template('account.html', user_name=session['user_name'])
+    return render_template('account.html', user_name=session['user_name'], cart_count=session['cart_count'])
 
 
 @app.route('/create_account', methods=['GET', 'POST'])
 def create_account():
-    global cart_empty
-
-    cart_empty = True
     password_match = True
     user_match = False
 
@@ -168,13 +164,13 @@ def create_account():
         except Exception as e:
             print('Error insert data in table...' + str(e))
 
-    return render_template('create_account.html', user_name=session['user_name'], user_match=user_match,
-                           password_match=password_match, cart_empty=cart_empty)
+    return render_template('create_account.html', user_name=session['user_name'], cart_count=session['cart_count'],
+                           user_match=user_match, password_match=password_match)
 
 
 @app.route('/logout')
 def logout():
-    session.clear()
+    session.pop('user_name', None)
     return redirect(url_for('home'))
 
 

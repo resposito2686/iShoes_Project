@@ -25,29 +25,33 @@
 <body>
     <nav class="navbar bg-dark navbar-dark sticky-top">
         <div class="container-fluid">
-            <a class="navbar-brand"
+            <a class="navbar-brand ms-3"
                style="font-family:Monaco; font-stretch:condensed; font-size:40px; font-weight: bold;"
                href="/home">iShoes</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+            <button class="navbar-toggler me-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
-                <span class="navbar-text text-white">
+                <span class="navbar-text text-white ms-3">
                     Welcome, {{user_name}}!
                 </span>
                 <ul class="navbar-nav">
-                    <li class="nav-item">
+                    <li class="nav-item ms-3">
                         {% if user_name == 'Guest' %}
                         <a class="nav-link" href="/login">Login</a>
                         {% else %}
                         <a class="nav-link" href="/account">My Account</a>
                         {% endif %}
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item ms-3">
                         <a class="nav-link" href="/shop">Shop</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/cart">Cart</a>
+                    <li class="nav-item ms-3">
+                        <a class="nav-link" href="/cart">Cart
+                            {% if cart_count > 0 %}
+                            <span class="badge bg-secondary">{{cart_count}}</span>
+                            {% endif %}
+                        </a>
                     </li>
                 </ul>
             </div>
