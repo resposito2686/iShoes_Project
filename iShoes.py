@@ -8,7 +8,47 @@ from flask import url_for
 from flask import request
 from flask import session
 
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import ValidationError, DataRequired, Length, EqualTo, Email
+
 from flask_mysqldb import MySQL
+
+
+class CreateAccountForm(FlaskForm):
+    username = StringField(label='User Name', validators=[DataRequired(message='*Required'), Length(min=3, max=45)])
+    password = PasswordField(label='Password', validators=[DataRequired(message='*Required')])
+    confirm = PasswordField(label='Confirm Password',
+                            validators=[DataRequired(message='*Required'),
+                                        EqualTo('password', message='Password must match.')])
+    email_address = StringField(label='Email Address',
+                                validators=[DataRequired(message='*Required'), Email(), Length(min=3, max=100)])
+    first_name = StringField(label='First Name', validators=[DataRequired(message='*Required'), Length(min=3, max=45)])
+    last_name = StringField(label='Last Name', validators=[DataRequired(message='*Required'), Length(min=3, max=45)])
+    address = StringField(label='Street Address', validators=[DataRequired(message='*Required'),
+                                                              Length(min=3, max=100)])
+    city = StringField(label='City', validators=[DataRequired(message='*Required'), Length(min=3, max=45)])
+    state = StringField(label='State', validators=[DataRequired(message='*Required'), Length(min=2, max=2)])
+    zip_code = StringField(label='Zip Code', validators=[DataRequired(message='*Required'),
+                                                         Length(min=5, max=5, message='Zip Code must be 5 digits')])
+
+    submit = SubmitField(label='Create')
+
+    def validate_username(self, username):
+        illegal_chars = '!@#$%^&*()+={[}]|\\:;\"\'<,>.?/~`'
+        for i in username.data:
+            if i in illegal_chars:
+                raise ValidationError(f'Error at { i }, User Name cannot contain symbols.')
+
+    def validate_state(self, state):
+        valid_states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA",
+                        "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM",
+                        "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA",
+                        "WV", "WI", "WY"]
+        for i in state.data:
+            if i in valid_states:
+                return True
+        raise ValidationError(f'{ state.data } is not a valid state.')
 
 
 app = Flask(__name__)
@@ -45,20 +85,20 @@ def index():
 
 @app.route('/home')
 def home():
-    if 'user_name' not in session:
-        session['user_name'] = 'Guest'
+    if 'username' not in session:
+        session['username'] = 'Guest'
 
-    return render_template('home.html', user_name=session['user_name'], cart_count=session['cart_count'])
+    return render_template('home.html', username=session['username'], cart_count=session['cart_count'])
 
 
 @app.route('/shop', methods=['GET', 'POST'])
 def shop():
-    return render_template('shop.html', user_name=session['user_name'], cart_count=session['cart_count'])
+    return render_template('shop.html', username=session['username'], cart_count=session['cart_count'])
 
 
 @app.route('/cart')
 def cart():
-    return render_template('cart.html', user_name=session['user_name'], cart_count=session['cart_count'])
+    return render_template('cart.html', username=session['username'], cart_count=session['cart_count'])
 
 
 @app.route('/add_cart')
@@ -79,41 +119,51 @@ def login():
     error = None
 
     if request.method == 'POST':
-        user_name = request.form['userNameInput']
+        username = request.form['userNameInput']
 
         #:  Password is ran through SHA512 hashing algorithm for security
         password = hashlib.sha512(request.form['passwordInput'].encode('utf-8')).hexdigest()
 
         #:  EXAMPLE MySQL QUERY
         #:  Please see the 'create_account' function for more detail.
-        cursor = mysql.connection.cursor()                                      # <-- CURSOR FOR QUERIES
-        cursor.execute('SELECT * from users WHERE userName = %s', [user_name])  # <-- QUERY GOES HERE
-        sql_data = cursor.fetchone()                                            # <-- DATA RETURNED AS TUPLE
+        cursor = mysql.connection.cursor()  # <-- CURSOR FOR QUERIES
+        cursor.execute('SELECT * from users WHERE userName = %s', [username])  # <-- QUERY GOES HERE
+        sql_data = cursor.fetchone()  # <-- DATA RETURNED AS TUPLE
         print(sql_data)
 
         if sql_data is not None:
             if sql_data[2] == password:
-                session['user_name'] = user_name
+                session['username'] = username
                 return redirect(url_for('home'))
             else:
                 error = 'password'
         else:
             error = 'user'
-    return render_template('login.html', user_name=session['user_name'], cart_count=session['cart_count'], error=error)
+    return render_template('login.html', username=session['username'], cart_count=session['cart_count'], error=error)
 
 
 @app.route('/account')
 def account():
-    return render_template('account.html', user_name=session['user_name'], cart_count=session['cart_count'])
+    return render_template('account.html', username=session['username'], cart_count=session['cart_count'])
 
 
 @app.route('/create_account', methods=['GET', 'POST'])
 def create_account():
+
+    form = CreateAccountForm()
+    if form.validate_on_submit():
+        session['username'] = form.username.data
+        return redirect(url_for('account'))
+    return render_template('create_account.html', username=session['username'], cart_count=session['cart_count'],
+                           form=form)
+    '''
     password_match = True
     user_match = False
 
+    
     if request.method == 'POST':
-        user_name = request.form['userNameInput']
+        
+        username = request.form['userNameInput']
         password = hashlib.sha512(request.form['passwordInput'].encode('utf-8')).hexdigest()
         password_ver = hashlib.sha512(request.form['passwordInputVer'].encode('utf-8')).hexdigest()
         if password != password_ver:
@@ -131,9 +181,10 @@ def create_account():
         try:
             #:  cursor used to execute commands
             cursor = mysql.connection.cursor()
-
-            #:  execute() function arguments are ('''MySQL Query''', (Python variables and literals))
-            cursor.execute('SELECT * from users WHERE userName = %s', [user_name])
+    '''
+    #:  execute() function arguments are ('''MySQL Query''', (Python variables and literals))
+    '''
+            cursor.execute('SELECT * from users WHERE userName = %s', [username])
 
             #: The query data is fetched and stored in the variable 'data'
             data = cursor.fetchone()
@@ -149,13 +200,13 @@ def create_account():
                 cursor.execute('INSERT into users '
                                '(userName, password, firstName, lastName, emailAddress, address, city, state, zipCode) '
                                'values (%s, %s, %s, %s, %s, %s, %s, %s, %s)',
-                               [user_name, password, first_name, last_name, email_address, address, city, state,
+                               [username, password, first_name, last_name, email_address, address, city, state,
                                 zip_code])
 
                 #:  commit table changes to the MySQL database
                 mysql.connection.commit()
 
-                session['user_name'] = user_name
+                session['username'] = username
                 return redirect(url_for('account'))
             else:
                 user_match = True
@@ -164,13 +215,14 @@ def create_account():
         except Exception as e:
             print('Error insert data in table...' + str(e))
 
-    return render_template('create_account.html', user_name=session['user_name'], cart_count=session['cart_count'],
+    return render_template('create_account.html', username=session['username'], cart_count=session['cart_count'],
                            user_match=user_match, password_match=password_match)
+    '''
 
 
 @app.route('/logout')
 def logout():
-    session.pop('user_name', None)
+    session.pop('username', None)
     return redirect(url_for('home'))
 
 
