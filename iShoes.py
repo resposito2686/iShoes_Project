@@ -1,12 +1,7 @@
 import os
 import hashlib
 
-from flask import Flask
-from flask import render_template
-from flask import redirect
-from flask import url_for
-from flask import request
-from flask import session
+from flask import Flask, render_template, redirect, url_for, session
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
@@ -18,7 +13,7 @@ from flask_mysqldb import MySQL
 class LoginForm(FlaskForm):
     username = StringField(label='User Name', validators=[DataRequired(message='*Required'), Length(min=3, max=45)])
     password = PasswordField(label='Password', validators=[DataRequired(message='*Required')])
-    login = SubmitField(label='Login')
+    submit = SubmitField(label='Login')
 
     def validate_username(self, username):
         cursor = mysql.connection.cursor()
@@ -26,7 +21,7 @@ class LoginForm(FlaskForm):
         data = cursor.fetchone()
 
         if data is not None:
-            if data[2] == self.password.data:
+            if data[2] == hashlib.sha512(self.password.data.encode('utf-8')).hexdigest():
                 session['username'] = username.data
                 return True
             else:
@@ -65,7 +60,6 @@ class CreateAccountForm(FlaskForm):
         print(data)
         if data is not None:
             raise ValidationError(f'{ username.data } is already taken, please choose another.')
-
 
     def validate_state(self, state):
         valid_states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA",
@@ -144,7 +138,7 @@ def login():
     if form.validate_on_submit():
         session['username'] = form.username.data
         return redirect(url_for('account'))
-    return render_template('login.html', username=session['username'], cart_count=session['cart_count'])
+    return render_template('login.html', username=session['username'], cart_count=session['cart_count'], form=form)
 
 
 @app.route('/account')
@@ -160,9 +154,9 @@ def create_account():
         cursor.execute('INSERT into users '
                        '(userName, password, firstName, lastName, emailAddress, address, city, state, zipCode) '
                        'values (%s, %s, %s, %s, %s, %s, %s, %s, %s)',
-                       [form.username.data, form.password.data, form.first_name.data, form.last_name.data,
-                        form.email_address.data, form.address.data, form.city.data, form.state.data,
-                        form.zip_code.data])
+                       [form.username.data, hashlib.sha512(form.password.data.encode('utf-8')).hexdigest(),
+                        form.first_name.data, form.last_name.data, form.email_address.data, form.address.data,
+                        form.city.data, form.state.data, form.zip_code.data])
         mysql.connection.commit()
         session['username'] = form.username.data
         mysql.connection.commit()
