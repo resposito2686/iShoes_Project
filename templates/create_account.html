@@ -13,59 +13,60 @@
     {% if user_match %}
     <p class="fs-5 text-danger text-center mt-5">Username is already in use, please select another.</p>
     {% endif %}
-    {% if not password_match %}
-    <p class="fs-5 text-danger text-center mt-5">Passwords do not match, please enter them again.</p>
-    {% endif %}
+    {% for field, errors in form.errors.items() %}
+    <p class="fs-5 text-danger text-center mt-5">{{ ', '.join(errors) }}</p>
+    {% endfor %}
 
     <div class="container col-6 mt-5">
-        <form method="POST">
+        <form method="POST" action="">
+            {{ form.csrf_token }}
             <div class="mb-3 col-6">
-                <label for="userNameInput" class="form-label">Username</label>
-                <input type="text" class="form-control" id="userNameInput" name="userNameInput">
+                <label class="form-label" for="">{{ form.username.label }}</label>
+                {{ form.username(class="form-control") }}
             </div>
             <div class="mb-3 col-6">
-                <label for="passwordInput" class="form-label">Password</label>
-                <input type="password" class="form-control" id="passwordInput" name="passwordInput">
+                <label class="form-label" for="">{{ form.password.label }}</label>
+                {{ form.password(class="form-control") }}
             </div>
             <div class="mb-3 col-6">
-                <label for="passwordInputVer" class="form-label">Verify Password</label>
-                <input type="password" class="form-control" id="passwordInputVer" name="passwordInputVer">
+                <label class="form-label" for="">{{ form.confirm.label }}</label>
+                {{ form.confirm(class="form-control") }}
             </div>
             <div class="mb-3 col-6">
-                <label for="emailAddress" class="form-label">Email Address</label>
-                <input type="email" class="form-control" id="emailAddress" name="emailAddress">
+                <label class="form-label" for="">{{ form.email_address.label }}</label>
+                {{ form.email_address(class="form-control") }}
             </div>
             <div class="row mb-3">
                 <div class="col-4">
-                    <label for="firstName" class="form-label">First Name</label>
-                    <input type="text" class="form-control" id="firstName" name="firstName">
+                    <label class="form-label" for="">{{ form.first_name.label }}</label>
+                    {{ form.first_name(class="form-control") }}
                 </div>
                 <div class="col-8">
-                    <label for="lastName" class="form-label">Last Name</label>
-                    <input type="text" class="form-control" id="lastName" name="lastName">
+                    <label class="form-label" for="">{{ form.last_name.label }}</label>
+                    {{ form.last_name(class="form-control") }}
                 </div>
             </div>
             <div class="mb-3 col-12">
-                <label for="address" class="form-label">Address</label>
-                <input type="text" class="form-control" id="address" name="address">
+                <label class="form-label" for="">{{ form.address.label }}</label>
+                {{ form.address(class="form-control") }}
             </div>
             <div class="row mb-3">
                 <div class="col-7">
-                    <label for="city" class="form-label">City</label>
-                    <input type="text" class="form-control" id="city" name="city">
+                    <label class="form-label" for="">{{ form.city.label }}</label>
+                    {{ form.city(class="form-control") }}
                 </div>
                 <div class="col-2">
-                    <label for="state" class="form-label">State</label>
-                    <input type="text" class="form-control" id="state" name="state">
+                    <label class="form-label" for="">{{ form.state.label }}</label>
+                    {{ form.state(class="form-control") }}
                 </div>
                 <div class="col-3">
-                    <label for="zipCode" class="form-label">Zip Code</label>
-                    <input type="text" class="form-control" id="zipCode" name="zipCode">
+                    <label class="form-label" for="">{{ form.zip_code.label }}</label>
+                    {{ form.zip_code(class="form-control") }}
                 </div>
             </div>
             <div class="row ml-auto mb-5">
                 <div class="col-auto">
-                    <button type="submit" class="btn btn-primary">Create</button>
+                    {{ form.submit(class="btn btn-primary")}}
                 </div>
             </div>
         </form>
