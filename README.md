@@ -1,9 +1,19 @@
 # CompE 561 - iShoe Project
 By Audrey Chuakay, Evaristo Rodriguez, and Robert Esposito
 
+## Required installations
+
+pip install Flask
+
+pip install Flask-WTF
+
+pip install email-validator
+
+pip install Flask-MySQLdb
+
 ## Helpful Links
 
-**Python:**
+**Python 3.9:**
 
 https://www.python.org/downloads/
 
@@ -34,3 +44,7 @@ https://getbootstrap.com/docs/5.0/getting-started/introduction/
 https://getbootstrap.com/docs/5.0/examples/
 
 https://www.w3schools.com/bootstrap5/index.php
+
+**WTForms Documentation:**
+
+https://wtforms.readthedocs.io/en/2.3.x/
