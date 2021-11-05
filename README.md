@@ -9,7 +9,7 @@ pip install Flask-WTF
 
 pip install email-validator
 
-pip install Flask-MySQLdb
+pip install mysql-connector-python
 
 ## Helpful Links
 
