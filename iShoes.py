@@ -67,9 +67,8 @@ class CreateAccountForm(FlaskForm):
                         "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM",
                         "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA",
                         "WV", "WI", "WY"]
-        if state.data in valid_states:
-            return True
-        raise ValidationError(f'{ state.data } is not a valid state.')
+        if state.data not in valid_states:
+            raise ValidationError(f'{ state.data } is not a valid state.')
 
 
 app = Flask(__name__)
