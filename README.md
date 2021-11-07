@@ -19,6 +19,7 @@ https://www.python.org/downloads/
 
 https://www.jetbrains.com/pycharm/
 
+&nbsp;
 
 **Flask documentation:**
 
@@ -33,6 +34,7 @@ https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
 
 https://www.tutorialspoint.com/flask/index.htm
 
+&nbsp;
 
 **Bootstrap Documentation:** 
 
@@ -44,6 +46,8 @@ https://getbootstrap.com/docs/5.0/getting-started/introduction/
 https://getbootstrap.com/docs/5.0/examples/
 
 https://www.w3schools.com/bootstrap5/index.php
+
+&nbsp;
 
 **WTForms Documentation:**
 
