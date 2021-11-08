@@ -142,7 +142,7 @@ def account():
 
 @app.route('/account/<username>')
 def my_account(username):
-    if username == 'Guest' or session['username'] == 'Guest':
+    if session['username'] == 'Guest':
         return redirect(url_for('login'))
 
     # PLACEHOLDER
