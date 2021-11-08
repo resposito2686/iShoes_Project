@@ -99,6 +99,7 @@ def home():
     if 'username' not in session:
         session['username'] = 'Guest'
 
+    print(session)
     return render_template('home.html', username=session['username'], cart_count=session['cart_count'])
 
 
@@ -130,13 +131,25 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         session['username'] = form.username.data
-        return redirect(url_for('account'))
+        return redirect(url_for('account', username=session['username']))
     return render_template('login.html', username=session['username'], cart_count=session['cart_count'], form=form)
 
 
-@app.route('/account')
+@app.route('/account/')
 def account():
-    return render_template('account.html', username=session['username'], cart_count=session['cart_count'])
+    return redirect(url_for('my_account', username=session['username']))
+
+
+@app.route('/account/<username>')
+def my_account(username):
+    if username == 'Guest' or session['username'] == 'Guest':
+        return redirect(url_for('login'))
+
+    # PLACEHOLDER
+    orders = [['000001', 'Complete', '10/19/21', '$126.74'], ['000005', 'Complete', '10/25/21', '$21.77'],
+              ['000012', 'Complete', '10/31/21', '$74.65'], ['000025', 'Shipped', '11/04/21', '$22.32']]
+
+    return render_template('account.html', username=username, cart_count=session['cart_count'], orders=orders)
 
 
 @app.route('/create_account', methods=['GET', 'POST'])
@@ -153,14 +166,14 @@ def create_account():
                         form.city.data, form.state.data, form.zip_code.data])
         cnx.commit()
         session['username'] = form.username.data
-        return redirect(url_for('account'))
+        return redirect(url_for('account', username=session['username']))
     return render_template('create_account.html', username=session['username'], cart_count=session['cart_count'],
                            form=form)
 
 
 @app.route('/logout')
 def logout():
-    session.pop('username', None)
+    session['username'] = 'Guest'
     return redirect(url_for('home'))
 
 
