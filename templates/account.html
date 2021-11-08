@@ -12,8 +12,44 @@
     <!-- HTML content for this page goes here! -->
 
     <!-- This is just a placeholder -->
-    <p class=" h1 text-center">{{username}}'s Account Page</p>
-    <div class='container col-3'>
+    <p class="h1 text-center">{{username}}'s Account Page</p>
+
+    {% if orders != None %}
+    <p class="h1 text-center mt-5 mb-5">Recent Orders</p>
+
+    <div class="container-md mx-20 my-5">
+        <!--
+    <div class="d-flex p-2 justify-content-center">
+    -->
+    <div class="table-responsive-xl">
+        <table class="table">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">Order #</th>
+                    <th scope="col">Current Status</th>
+                    <th scope="col">Order Date</th>
+                    <th scope="col">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(orders|length) %}
+                <tr>
+                    <th scope="row">{{ orders[i][0] }}</th>
+                    <td>{{ orders[i][1] }}</td>
+                    <td>{{ orders[i][2] }}</td>
+                    <td>{{ orders[i][3] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    </div>
+<!--
+    </div>
+    -->
+    {% endif %}
+    <div class="container col-2">
         <div class="row mb-5 mt-5">
             <button type="button" onclick="location.href='/logout'"
                     class="btn btn-primary">Log Out</button>
