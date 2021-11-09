@@ -17,37 +17,30 @@
     {% if orders != None %}
     <p class="h1 text-center mt-5 mb-5">Recent Orders</p>
 
-    <div class="container-md mx-20 my-5">
-        <!--
-    <div class="d-flex p-2 justify-content-center">
-    -->
-    <div class="table-responsive-xl">
-        <table class="table">
-            <thead class="table-light">
-                <tr>
-                    <th scope="col">Order #</th>
-                    <th scope="col">Current Status</th>
-                    <th scope="col">Order Date</th>
-                    <th scope="col">Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for i in range(orders|length) %}
-                <tr>
-                    <th scope="row">{{ orders[i][0] }}</th>
-                    <td>{{ orders[i][1] }}</td>
-                    <td>{{ orders[i][2] }}</td>
-                    <td>{{ orders[i][3] }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-    </div>
-<!--
-    </div>
-    -->
+        <div class="container-md mx-20 my-5">
+            <div style="max-height:300px; overflow:auto;">
+                <table class="table">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Order #</th>
+                            <th scope="col">Current Status</th>
+                            <th scope="col">Order Date</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in range(orders|length) %}
+                        <tr>
+                            <th scope="row">{{ orders[i][0] }}</th>
+                            <td>{{ orders[i][1] }}</td>
+                            <td>{{ orders[i][2] }}</td>
+                            <td>{{ orders[i][3] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     {% endif %}
     <div class="container col-2">
         <div class="row mb-5 mt-5">

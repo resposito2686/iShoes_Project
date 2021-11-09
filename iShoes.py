@@ -99,7 +99,6 @@ def home():
     if 'username' not in session:
         session['username'] = 'Guest'
 
-    print(session)
     return render_template('home.html', username=session['username'], cart_count=session['cart_count'])
 
 
