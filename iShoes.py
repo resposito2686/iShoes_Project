@@ -35,9 +35,8 @@ class LoginForm(FlaskForm):
 class CreateAccountForm(FlaskForm):
     username = StringField(label='User Name', validators=[DataRequired(message='*Required'), Length(min=3, max=45)])
     password = PasswordField(label='Password', validators=[DataRequired(message='*Required')])
-    confirm = PasswordField(label='Confirm Password',
-                            validators=[DataRequired(message='*Required'),
-                                        EqualTo('password', message='Password must match.')])
+    confirm = PasswordField(label='Confirm Password', validators=[DataRequired(message='*Required'),
+                                                                  EqualTo('password', message='Password must match.')])
     email_address = StringField(label='Email Address',
                                 validators=[DataRequired(message='*Required'), Email(), Length(min=3, max=100)])
     first_name = StringField(label='First Name', validators=[DataRequired(message='*Required'), Length(min=3, max=45)])
@@ -136,11 +135,11 @@ def login():
 
 @app.route('/account/')
 def account():
-    return redirect(url_for('my_account', username=session['username']))
+    return redirect(url_for('user_account', username=session['username']))
 
 
 @app.route('/account/<username>')
-def my_account(username):
+def user_account(username):
     if session['username'] == 'Guest':
         return redirect(url_for('login'))
 
