@@ -21,46 +21,46 @@
         <form method="POST" action="">
             {{ form.csrf_token }}
             <div class="mb-3 col-6">
-                <label class="form-label" for="">{{ form.username.label }}</label>
+                {{ form.username.label }}
                 {{ form.username(class="form-control") }}
             </div>
             <div class="mb-3 col-6">
-                <label class="form-label" for="">{{ form.password.label }}</label>
+                {{ form.password.label }}
                 {{ form.password(class="form-control") }}
             </div>
             <div class="mb-3 col-6">
-                <label class="form-label" for="">{{ form.confirm.label }}</label>
+                {{ form.confirm.label }}
                 {{ form.confirm(class="form-control") }}
             </div>
             <div class="mb-3 col-6">
-                <label class="form-label" for="">{{ form.email_address.label }}</label>
+                {{ form.email_address.label }}
                 {{ form.email_address(class="form-control") }}
             </div>
             <div class="row mb-3">
                 <div class="col-4">
-                    <label class="form-label" for="">{{ form.first_name.label }}</label>
+                    {{ form.first_name.label }}
                     {{ form.first_name(class="form-control") }}
                 </div>
                 <div class="col-8">
-                    <label class="form-label" for="">{{ form.last_name.label }}</label>
+                    {{ form.last_name.label }}
                     {{ form.last_name(class="form-control") }}
                 </div>
             </div>
             <div class="mb-3 col-12">
-                <label class="form-label" for="">{{ form.address.label }}</label>
+                {{ form.address.label }}
                 {{ form.address(class="form-control") }}
             </div>
             <div class="row mb-3">
                 <div class="col-7">
-                    <label class="form-label" for="">{{ form.city.label }}</label>
+                    {{ form.city.label }}
                     {{ form.city(class="form-control") }}
                 </div>
                 <div class="col-2">
-                    <label class="form-label" for="">{{ form.state.label }}</label>
+                    {{ form.state.label }}
                     {{ form.state(class="form-control") }}
                 </div>
                 <div class="col-3">
-                    <label class="form-label" for="">{{ form.zip_code.label }}</label>
+                    {{ form.zip_code.label }}
                     {{ form.zip_code(class="form-control") }}
                 </div>
             </div>
