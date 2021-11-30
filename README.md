@@ -1,4 +1,4 @@
-# CompE 561 - iShoe Project
+# CompE 561 - iShoes Project
 By Audrey Chuakay, Evaristo Rodriguez, and Robert Esposito
 
 ## Required installations
