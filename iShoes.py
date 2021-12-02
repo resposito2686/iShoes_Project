@@ -1,7 +1,7 @@
 import os
 import hashlib
 
-from flask import Flask, render_template, redirect, url_for, session
+from flask import Flask, render_template, redirect, url_for, session, request
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
@@ -103,7 +103,12 @@ def home():
 
 @app.route('/shop', methods=['GET', 'POST'])
 def shop():
-    return render_template('shop.html', username=session['username'], cart_count=session['cart_count'])
+    color_choice = ''
+    if request.method == 'POST':
+        color_choice = request.form['color']
+
+    return render_template('shop.html', username=session['username'], cart_count=session['cart_count'],
+                           color_choice=color_choice)
 
 
 @app.route('/cart')

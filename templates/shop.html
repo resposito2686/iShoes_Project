@@ -211,6 +211,7 @@
 }
 </style>
 
+<!--
 <script>
     $(document).ready(function() {
 
@@ -223,18 +224,24 @@
   });
 
 </script>
-
+-->
 
 
 <main class="container">
 
   <!-- Left Column / Headphones Image -->
   <div class="left-column">
-    <img data-image="red"  class="active" src="static/images/red.png" alt="">
-    <img data-image="blue"   src="static/images/blue.png" alt="">
-    <img data-image="black"   src="static/images/black.png" alt="">
-    <img data-image="orange"   src="static/images/orange.png" alt="">
-    <img data-image="white"   src="static/images/white.png" alt="">
+    {% if color_choice == 'red' %}
+    <img data-image="red" class="active" src="static/images/red.png" alt="">
+    {% elif color_choice == 'blue' %}
+    <img data-image="blue" class="active" src="static/images/blue.png" alt="">
+    {% elif color_choice == 'black' %}
+    <img data-image="black" class="active" src="static/images/black.png" alt="">
+    {% elif color_choice == 'orange' %}
+    <img data-image="orange" class="active" src="static/images/orange.png" alt="">
+    {% else %}
+    <img data-image="white" class="active" src="static/images/white.png" alt="">
+    {% endif %}
   </div>
 
 
@@ -256,26 +263,33 @@
         <span>Color</span>
 
         <div class="color-choose">
-          <div>
-            <input data-image="red" type="radio" id="red" name="color" value="red" checked>
-            <label for="red"><span></span></label>
-          </div>
-          <div>
-            <input data-image="blue" type="radio" id="blue" name="color" value="blue">
-            <label for="blue"><span></span></label>
-          </div>
-          <div>
-            <input data-image="black" type="radio" id="black" name="color" value="black">
-            <label for="black"><span></span></label>
-          </div>
-          <div>
-            <input data-image="orange" type="radio" id="orange" name="color" value="orange">
-            <label for="orange"><span></span></label>
-          </div>
-          <div>
-            <input data-image="white" type="radio" id="white" name="color" value="white">
-            <label for="white"><span></span></label>
-          </div>
+          <form method="POST" action="">
+            <div>
+              <input data-image="red" type="radio" id="red" name="color" value="red"
+                     {% if color_choice == 'red' %} checked {% endif %} onclick="this.form.submit();">
+              <label for="red"><span></span></label>
+            </div>
+            <div>
+              <input data-image="blue" type="radio" id="blue" name="color" value="blue"
+                     {% if color_choice == 'blue' %} checked {% endif %} onclick="this.form.submit();">
+              <label for="blue"><span></span></label>
+            </div>
+            <div>
+              <input data-image="black" type="radio" id="black" name="color" value="black"
+                     {% if color_choice == 'black' %} checked {% endif %} onclick="this.form.submit();">
+              <label for="black"><span></span></label>
+            </div>
+            <div>
+              <input data-image="orange" type="radio" id="orange" name="color" value="orange"
+                     {% if color_choice == 'orange' %} checked {% endif %} onclick="this.form.submit();">
+              <label for="orange"><span></span></label>
+            </div>
+            <div>
+              <input data-image="white" type="radio" id="white" name="color" value="white"
+                     {% if color_choice == 'white' %} checked {% endif %} onclick="this.form.submit();">
+              <label for="white"><span></span></label>
+            </div>
+          </form>
         </div>
 
       </div>
