@@ -15,12 +15,25 @@
     {% if cart_count == 0 %}
     <p class="h1 text-center text-danger">Your cart is empty.</p>
     {% else %}
-    <p class="h1 text-center">Number of items in cart: {{cart_count}}</p>
-    <div class="row justify-content-center">
-        <div class="col-auto">
-            <button type="button" onclick="location.href='/remove_cart'"
-                    class="btn btn-primary">Remove Cart Item</button>
-        </div>
+    <div class="container-md mx-50 my-5">
+        <table class="table">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">Item</th>
+                    <th scope="col">Color</th>
+                    <th scope="col">Size</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(cart|length) %}
+                <tr>
+                    <th scope="row">{{ cart[i][0] }}</th>
+                        <td>{{ cart[i][1] }}</td>
+                        <td>{{ cart[i][2] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
     {% endif %}
 {% endblock %}
