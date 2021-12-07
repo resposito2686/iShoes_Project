@@ -17,7 +17,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField(label='Login')
 
     def validate_username(self, username):
-        
+
         cursor = cnx.cursor()
         cursor.execute('SELECT * from users WHERE userName = %s', [username.data])
         data = cursor.fetchone()
@@ -27,9 +27,9 @@ class LoginForm(FlaskForm):
                 session['username'] = username.data
                 return True
             else:
-                raise ValidationError(f'Incorrect password for { username.data }')
+                raise ValidationError(f'Incorrect password for {username.data}')
         else:
-            raise ValidationError(f'User Name { username.data } does not exist.')
+            raise ValidationError(f'User Name {username.data} does not exist.')
 
 
 class CreateAccountForm(FlaskForm):
@@ -53,13 +53,13 @@ class CreateAccountForm(FlaskForm):
         illegal_chars = '!@#$%^&*()+={[}]|\\:;\"\'<,>.?/~`'
         for i in username.data:
             if i in illegal_chars:
-                raise ValidationError(f'Error at { i }, User Name cannot contain symbols.')
+                raise ValidationError(f'Error at {i}, User Name cannot contain symbols.')
 
         cursor = cnx.cursor()
         cursor.execute('SELECT * from users WHERE userName = %s', [username.data])
         data = cursor.fetchone()
         if data is not None:
-            raise ValidationError(f'{ username.data } is already taken, please choose another.')
+            raise ValidationError(f'{username.data} is already taken, please choose another.')
 
     def validate_state(self, state):
         valid_states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA",
@@ -67,7 +67,7 @@ class CreateAccountForm(FlaskForm):
                         "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA",
                         "WV", "WI", "WY"]
         if state.data not in valid_states:
-            raise ValidationError(f'{ state.data } is not a valid state.')
+            raise ValidationError(f'{state.data} is not a valid state.')
 
 
 app = Flask(__name__)
@@ -103,16 +103,32 @@ def home():
 
 @app.route('/shop', methods=['GET', 'POST'])
 def shop():
-    color_choice = ''
-    if request.method == 'POST':
-        color_choice = request.form['color']
 
-    return render_template('shop.html', username=session['username'], cart_count=session['cart_count'],
-                           color_choice=color_choice)
+    if request.method == 'POST':
+        if 'color' in request.form:
+            session['color_choice'] = request.form['color']
+            return render_template('shop.html', username=session['username'], cart_count=session['cart_count'],
+                                   color_choice=session['color_choice'])
+        else:
+            session['cart_count'] += 1
+            if 'cart' not in session:
+                session['cart'] = [['Nike AirForce 1', session['color_choice'], request.form['size']]]
+            else:
+                session['cart'].append(['Nike AirForce 1', session['color_choice'], request.form['size']])
+
+            session.pop('color_choice')
+            print(session['cart'])
+            return render_template('shop.html', username=session['username'], cart_count=session['cart_count'],
+                                   added_to_cart=True)
+
+    return render_template('shop.html', username=session['username'], cart_count=session['cart_count'])
 
 
 @app.route('/cart')
 def cart():
+    if 'cart' in session:
+        return render_template('cart.html', username=session['username'], cart_count=session['cart_count'],
+                               cart=session['cart'])
     return render_template('cart.html', username=session['username'], cart_count=session['cart_count'])
 
 
@@ -159,7 +175,6 @@ def user_account(username):
 def create_account():
     form = CreateAccountForm()
     if form.validate_on_submit():
-
         cursor = cnx.cursor()
         cursor.execute('INSERT into users '
                        '(userName, password, firstName, lastName, emailAddress, address, city, state, zipCode) '
@@ -179,6 +194,24 @@ def logout():
     session['username'] = 'Guest'
     return redirect(url_for('home'))
 
+
+'''
+@app.route('/data')
+def data():
+
+    shoe_colors = ['red', 'blue', 'black', 'orange', 'white']
+    for i in shoe_colors:
+        x = 5
+        while (x != 13):
+            cursor = cnx.cursor()
+            cursor.execute('INSERT into shoes '
+                           '(shoeBrand, shoeColor, shoePrice, shoeSize, stockAmount) '
+                           'values (%s, %s, %s, %s, %s)',
+                           ['Nike Air Force 1', i, 150.00, x, 3])
+            cnx.commit()
+            x += 1
+    return '<p> DONE </p>'
+'''
 
 if __name__ == '__main__':
     app.run()
