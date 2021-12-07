@@ -226,6 +226,9 @@
 </script>
 -->
 
+{% if added_to_cart == true %}
+<p class="h1 text-center text-primary">Added to cart.</p>
+{% endif %}
 
 <main class="container">
 
@@ -297,33 +300,49 @@
       <!-- Shoe Configuration -->
       <div class="shoe-config">
         <span>Shoe Size</span>
-
-        <div class="size-choose">
-          <button>5 M</button>
-          <button>6 M</button>
-          <button>7 M</button>
-          <button>8 M</button>
-          <button>9 M</button>
-          <button>10 M</button>
-          <button>11 M</button>
-          <button>12 M</button>
-        </div>
-
+        <form method="POST" action="">
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-secondary">
+              <input type="radio" name="size" id="5" value="5" autocomplete="off"
+                     {% if size_choice == '5' %} checked {% endif %}> 5
+            </label>
+            <label class="btn btn-secondary">
+              <input type="radio" name="size" id="6" value="6" autocomplete="off"
+                     {% if size_choice == '6' %} checked {% endif %}> 6
+            </label>
+            <label class="btn btn-secondary">
+              <input type="radio" name="size" id="7" value="7" autocomplete="off"
+                     {% if size_choice == '7' %} checked {% endif %}> 7
+            </label>
+            <label class="btn btn-secondary">
+              <input type="radio" name="size" id="8" value="8" autocomplete="off"
+                     {% if size_choice == '8' %} checked {% endif %}> 8
+            </label>
+            <label class="btn btn-secondary">
+              <input type="radio" name="size" id="9" value="9" autocomplete="off"
+                     {% if size_choice == '9' %} checked {% endif %}> 9
+            </label>
+            <label class="btn btn-secondary">
+              <input type="radio" name="size" id="10" value="10" autocomplete="off"
+                     {% if size_choice == '10' %} checked {% endif %}> 10
+            </label>
+            <label class="btn btn-secondary">
+              <input type="radio" name="size" id="11" value="11" autocomplete="off"
+                     {% if size_choice == '11' %} checked {% endif %}> 11
+            </label>
+            <label class="btn btn-secondary">
+              <input type="radio" name="size" id="12" value="12" autocomplete="off"
+                     {% if size_choice == '12' %} checked {% endif %}> 12
+            </label>
+          </div>
+          <div class="product-price">
+            <span>$150</span>
+            <button type="button" onclick="this.form.submit();"
+                    class="btn btn-primary">Add to Cart</button>
+          </div>
+        </form>
       </div>
     </div>
-
-    <!-- Product Pricing -->
-    <div class="product-price">
-      <span>$150</span>
-      <button type="button" onclick="location.href='/add_cart'"
-                    class="btn btn-primary">Add to Cart</button>
-
-    </div>
   </div>
-
 </main>
-
-
 {% endblock %}
-
-
