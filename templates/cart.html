@@ -19,9 +19,11 @@
         <table class="table">
             <thead class="table-light">
                 <tr>
-                    <th scope="col">Item</th>
+                    <th scope="col">Brand</th>
+                    <th scope="col">Model</th>
                     <th scope="col">Color</th>
                     <th scope="col">Size</th>
+                    <th scope="col">Price</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,6 +32,14 @@
                     <th scope="row">{{ cart[i][0] }}</th>
                         <td>{{ cart[i][1] }}</td>
                         <td>{{ cart[i][2] }}</td>
+                        <td>{{ cart[i][3] }}</td>
+                        <td>{{ cart[i][4] }}</td>
+                        <td>
+                            <form method="POST" action="">
+                                <button class="btn btn-danger" name="remove" type="submit" value="{{ i }}">Remove Item
+                                </button>
+                            </form>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>

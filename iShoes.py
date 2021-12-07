@@ -112,14 +112,10 @@ def shop_id(item_id):
     cursor.execute('SELECT * FROM shoes WHERE modelID = %s', [item_id])
     data = cursor.fetchone()
     cursor.close()
-    print(data)
 
     if request.method == 'POST':
-        print('POST REQUEST')
         if 'color' in request.form:
-            print('COLOR REQUEST')
             session['color_choice'] = request.form['color']
-            print('COLOR = ' + session['color_choice'])
             return render_template('shop_id.html', username=session['username'], cart_count=session['cart_count'],
                                    item_id=item_id, shoe_brand=data[1], shoe_model=data[2],
                                    color_choice=session['color_choice'])
@@ -139,9 +135,13 @@ def shop_id(item_id):
                            item_id=item_id, shoe_brand=data[1], shoe_model=data[2])
 
 
-@app.route('/cart')
+@app.route('/cart', methods=['GET', 'POST'])
 def cart():
     if 'cart' in session:
+        if request.method == 'POST':
+            session['cart'].pop(int(request.form.get('remove')))
+            session['cart_count'] -= 1
+            return redirect(url_for('cart'))
         return render_template('cart.html', username=session['username'], cart_count=session['cart_count'],
                                cart=session['cart'])
     return render_template('cart.html', username=session['username'], cart_count=session['cart_count'])
