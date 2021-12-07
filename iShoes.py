@@ -101,27 +101,42 @@ def home():
     return render_template('home.html', username=session['username'], cart_count=session['cart_count'])
 
 
-@app.route('/shop', methods=['GET', 'POST'])
+@app.route('/shop/')
 def shop():
+    return render_template('shop.html', username=session['username'], cart_count=session['cart_count'])
+
+
+@app.route('/shop/<item_id>', methods=['GET', 'POST'])
+def shop_id(item_id):
+    cursor = cnx.cursor(buffered=True)
+    cursor.execute('SELECT * FROM shoes WHERE modelID = %s', [item_id])
+    data = cursor.fetchone()
+    cursor.close()
+    print(data)
 
     if request.method == 'POST':
+        print('POST REQUEST')
         if 'color' in request.form:
+            print('COLOR REQUEST')
             session['color_choice'] = request.form['color']
-            return render_template('shop.html', username=session['username'], cart_count=session['cart_count'],
+            print('COLOR = ' + session['color_choice'])
+            return render_template('shop_id.html', username=session['username'], cart_count=session['cart_count'],
+                                   item_id=item_id, shoe_brand=data[1], shoe_model=data[2],
                                    color_choice=session['color_choice'])
         else:
             session['cart_count'] += 1
             if 'cart' not in session:
-                session['cart'] = [['Nike AirForce 1', session['color_choice'], request.form['size']]]
+                session['cart'] = [[data[1], data[2], session['color_choice'], request.form['size'], data[5]]]
             else:
-                session['cart'].append(['Nike AirForce 1', session['color_choice'], request.form['size']])
-
+                session['cart'].append([data[1], data[2], session['color_choice'], request.form['size'],
+                                        data[5]])
             session.pop('color_choice')
             print(session['cart'])
-            return render_template('shop.html', username=session['username'], cart_count=session['cart_count'],
-                                   added_to_cart=True)
+            return render_template('shop_id.html', username=session['username'], cart_count=session['cart_count'],
+                                   item_id=item_id, shoe_brand=data[1], shoe_model=data[2], added_to_cart=True)
 
-    return render_template('shop.html', username=session['username'], cart_count=session['cart_count'])
+    return render_template('shop_id.html', username=session['username'], cart_count=session['cart_count'],
+                           item_id=item_id, shoe_brand=data[1], shoe_model=data[2])
 
 
 @app.route('/cart')
@@ -132,25 +147,12 @@ def cart():
     return render_template('cart.html', username=session['username'], cart_count=session['cart_count'])
 
 
-@app.route('/add_cart')
-def add_cart():
-    session['cart_count'] += 1
-    return redirect(url_for('shop'))
-
-
-@app.route('/remove_cart')
-def remove_cart():
-    if session['cart_count'] > 0:
-        session['cart_count'] -= 1
-    return redirect(url_for('cart'))
-
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
         session['username'] = form.username.data
-        return redirect(url_for('account', username=session['username']))
+        return redirect(url_for('account'))
     return render_template('login.html', username=session['username'], cart_count=session['cart_count'], form=form)
 
 
@@ -205,9 +207,9 @@ def data():
         while (x != 13):
             cursor = cnx.cursor()
             cursor.execute('INSERT into shoes '
-                           '(shoeBrand, shoeColor, shoePrice, shoeSize, stockAmount) '
-                           'values (%s, %s, %s, %s, %s)',
-                           ['Nike Air Force 1', i, 150.00, x, 3])
+                           '(shoeBrand, shoeModel, shoeColor, shoeSize, shoePrice, stock) '
+                           'values (%s, %s, %s, %s, %s, %s)',
+                           ['Nike Sneakers', 'Custom Air Force 1', i, x, 150.00, 3])
             cnx.commit()
             x += 1
     return '<p> DONE </p>'
