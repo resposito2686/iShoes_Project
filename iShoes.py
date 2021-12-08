@@ -1,5 +1,6 @@
 import os
 import hashlib
+from decimal import Decimal
 
 from flask import Flask, render_template, redirect, url_for, session, request
 
@@ -122,10 +123,8 @@ def shop_id(item_id):
         else:
             session['cart_count'] += 1
             if 'cart' not in session:
-                session['cart'] = [[data[1], data[2], session['color_choice'], request.form['size'], data[5]]]
-            else:
-                session['cart'].append([data[1], data[2], session['color_choice'], request.form['size'],
-                                        data[5]])
+                session['cart'] = []
+            session['cart'].append([data[1], data[2], session['color_choice'], request.form['size'], data[5]])
             session.pop('color_choice')
             print(session['cart'])
             return render_template('shop_id.html', username=session['username'], cart_count=session['cart_count'],
@@ -138,13 +137,21 @@ def shop_id(item_id):
 @app.route('/cart', methods=['GET', 'POST'])
 def cart():
     if 'cart' in session:
+        total = Decimal(0.00)
+        for i in session['cart']:
+            total += Decimal(i[4])
         if request.method == 'POST':
             session['cart'].pop(int(request.form.get('remove')))
             session['cart_count'] -= 1
             return redirect(url_for('cart'))
         return render_template('cart.html', username=session['username'], cart_count=session['cart_count'],
-                               cart=session['cart'])
+                               cart=session['cart'], total=total)
     return render_template('cart.html', username=session['username'], cart_count=session['cart_count'])
+
+
+@app.route('/checkout')
+def checkout():
+    return render_template('checkout.html', username=session['username'], cart_count=session['cart_count'])
 
 
 @app.route('/login', methods=['GET', 'POST'])

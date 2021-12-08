@@ -33,15 +33,23 @@
                         <td>{{ cart[i][1] }}</td>
                         <td>{{ cart[i][2] }}</td>
                         <td>{{ cart[i][3] }}</td>
-                        <td>{{ cart[i][4] }}</td>
+                        <td>${{ cart[i][4] }}</td>
                         <td>
                             <form method="POST" action="">
                                 <button class="btn btn-danger" name="remove" type="submit" value="{{ i }}">Remove Item
                                 </button>
                             </form>
                         </td>
-                    </tr>
+                </tr>
                 {% endfor %}
+                <tr>
+                    <td></td><td></td><td></td><td></td>
+                    <td>Total: ${{ total }}</td>
+                    <td>
+                        <button class="btn btn-primary" name="checkout" type="button"
+                                onclick="location.href='{{ url_for('checkout') }}'">Checkout</button>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
