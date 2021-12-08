@@ -230,8 +230,8 @@
 
   <!-- Left Column / Shoe Image -->
   <div class="left-column">
-    {% if color_choice == 'red' %}
-    <img data-image="red" class="active" src="{{ url_for('static', filename='images/red.png') }}" alt="">
+    {% if color_choice == 'white' %}
+    <img data-image="white" class="active" src="{{ url_for('static', filename='images/white.png') }}" alt="">
     {% elif color_choice == 'blue' %}
     <img data-image="blue" class="active" src="{{ url_for('static', filename='images/blue.png') }}" alt="">
     {% elif color_choice == 'black' %}
@@ -239,7 +239,7 @@
     {% elif color_choice == 'orange' %}
     <img data-image="orange" class="active" src="{{ url_for('static', filename='images/orange.png') }}" alt="">
     {% else %}
-    <img data-image="white" class="active" src="{{ url_for('static', filename='images/white.png') }}" alt="">
+    <img data-image="red" class="active" src="{{ url_for('static', filename='images/red.png') }}" alt="">
     {% endif %}
   </div>
 
