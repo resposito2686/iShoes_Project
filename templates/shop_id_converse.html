@@ -84,12 +84,6 @@
 .color-choose input[type="radio"]#white + label span {
   background-color: #FFFFFF;
 }
-.color-choose input[type="radio"]#orange + label span {
-  background-color: #FFA500;
-}
-.color-choose input[type="radio"]#red + label span {
-  background-color: #C91524;
-}
 .color-choose input[type="radio"]#blue + label span {
   background-color: #314780;
 }
@@ -215,16 +209,12 @@
 
   <!-- Left Column / Shoe Image -->
   <div class="left-column">
-    {% if color_choice == 'white' %}
-    <img data-image="white" class="active" src="{{ url_for('static', filename='images/white.png') }}" alt="">
-    {% elif color_choice == 'blue' %}
+    {% if color_choice == 'blue' %}
     <img data-image="blue" class="active" src="{{ url_for('static', filename='images/blue.png') }}" alt="">
     {% elif color_choice == 'black' %}
     <img data-image="black" class="active" src="{{ url_for('static', filename='images/black.png') }}" alt="">
-    {% elif color_choice == 'orange' %}
-    <img data-image="orange" class="active" src="{{ url_for('static', filename='images/orange.png') }}" alt="">
     {% else %}
-    <img data-image="red" class="active" src="{{ url_for('static', filename='images/red.png') }}" alt="">
+    <img data-image="white" class="active" src="{{ url_for('static', filename='images/white.png') }}" alt="">
     {% endif %}
   </div>
 
@@ -249,11 +239,6 @@
         <div class="color-choose">
           <form method="POST" action="">
             <div>
-              <input data-image="red" type="radio" id="red" name="color" value="red"
-                     checked onclick="this.form.submit();">
-              <label for="red"><span></span></label>
-            </div>
-            <div>
               <input data-image="blue" type="radio" id="blue" name="color" value="blue"
                      {% if color_choice == 'blue' %} checked {% endif %} onclick="this.form.submit();">
               <label for="blue"><span></span></label>
@@ -262,11 +247,6 @@
               <input data-image="black" type="radio" id="black" name="color" value="black"
                      {% if color_choice == 'black' %} checked {% endif %} onclick="this.form.submit();">
               <label for="black"><span></span></label>
-            </div>
-            <div>
-              <input data-image="orange" type="radio" id="orange" name="color" value="orange"
-                     {% if color_choice == 'orange' %} checked {% endif %} onclick="this.form.submit();">
-              <label for="orange"><span></span></label>
             </div>
             <div>
               <input data-image="white" type="radio" id="white" name="color" value="white"

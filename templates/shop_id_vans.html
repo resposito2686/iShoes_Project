@@ -216,15 +216,15 @@
   <!-- Left Column / Shoe Image -->
   <div class="left-column">
     {% if color_choice == 'white' %}
-    <img data-image="white" class="active" src="{{ url_for('static', filename='images/white.png') }}" alt="">
+    <img data-image="white" class="active" src="{{ url_for('static', filename='images/white_vans.png') }}" alt="">
     {% elif color_choice == 'blue' %}
-    <img data-image="blue" class="active" src="{{ url_for('static', filename='images/blue.png') }}" alt="">
+    <img data-image="blue" class="active" src="{{ url_for('static', filename='images/blue_vans.png') }}" alt="">
     {% elif color_choice == 'black' %}
-    <img data-image="black" class="active" src="{{ url_for('static', filename='images/black.png') }}" alt="">
+    <img data-image="black" class="active" src="{{ url_for('static', filename='images/black_vans.png') }}" alt="">
     {% elif color_choice == 'orange' %}
-    <img data-image="orange" class="active" src="{{ url_for('static', filename='images/orange.png') }}" alt="">
+    <img data-image="orange" class="active" src="{{ url_for('static', filename='images/orange_vans.png') }}" alt="">
     {% else %}
-    <img data-image="red" class="active" src="{{ url_for('static', filename='images/red.png') }}" alt="">
+    <img data-image="red" class="active" src="{{ url_for('static', filename='images/red_vans.png') }}" alt="">
     {% endif %}
   </div>
 
@@ -236,7 +236,7 @@
     <div class="product-description">
       <span>{{ shoe_brand }}</span>
       <h1>{{ shoe_model }}</h1>
-      <p>Comfortable and affordable sneakers made by you. Choose the color of the swoosh and backing that you love!</p>
+      <p>Comfortable and affordable sneakers made by you. Choose the color of the body and backing that you love!</p>
     </div>
 
     <!-- Product Configuration -->

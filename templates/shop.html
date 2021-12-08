@@ -9,7 +9,38 @@
 {% endblock %}
 
 {% block body %}
+<style>
+    /* Columns */
+    .left-column {
+      width:33%;
+      position: relative;
+    }
 
- <a href="{{ url_for('shop_id', item_id=0) }}" class="btn btn-primary">Shop for Custom Nike Air Force 1's</a>
+    .middle-column {
+        width: 34%;
+        position: relative;
+    }
+
+    .right-column {
+      width: 33%;
+      margin-top: 60px;
+    }
+
+</style>
+
+<div class="left-column">
+    <a href="{{ url_for('shop_id', item_id=0) }}" class="btn btn-primary">Shop for Custom Nike Air Force 1's</a>
+</div>
+
+<div class="middle-column">
+    <a href="{{ url_for('shop_id_vans', item_id=1) }}" class="btn btn-primary">Shop for Custom Vans</a>
+</div>
+
+<div class="right-column">
+    <a href="{{ url_for('shop_id_converse', item_id=2) }}" class="btn btn-primary">Shop for Custom Converse</a>
+</div>
+
+
+
 
 {% endblock %}
