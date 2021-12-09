@@ -234,7 +234,7 @@ def checkout():
 
 @app.route('/order')
 def order():
-    return '<h1> ORDER COMPLETE </h1>'
+    return redirect(url_for('account'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
