@@ -15,7 +15,7 @@
 -------------------------------------------------- */
 
 body {
-  padding-top: 3rem;
+  padding-top: 0rem;
   padding-bottom: 3rem;
   color: #5a5a5a;
 }
@@ -101,33 +101,33 @@ body {
       <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
     <div class="carousel-inner">
-      <div class="carousel-item active" style= "background-image:url('images/red');">
-       
+      <div class="carousel-item active" style= "background-image:url({{url_for('static', filename='images/blue.png')}});">
+
         <div class="container">
           <div class="carousel-caption text-start">
-            <h1>iShoes design 1</h1>
-            <p>Where the shoes of your dreams come true.</p>
+            <h1 style="color:black;">iShoes design 1</h1>
+            <p style="color:black;">Where the shoes of your dreams come true.</p>
             <p><a class="btn btn-lg btn-primary" href="login">Sign up today</a></p>
           </div>
         </div>
       </div>
-      <div class="carousel-item" style= "background-image:url_for('static', filename='images/red.png');">
-        
+      <div class="carousel-item" style= "background-image:url({{url_for('static', filename='images/red.png')}});">
+
         <div class="container">
           <div class="carousel-caption">
-            <h1>Another ishoes unique design</h1>
-            <p>Each design comes with more than just new colors</p>
+            <h1 style="color:black;">Another ishoes unique design</h1>
+            <p style="color:black;">Each design comes with more than just new colors</p>
             <p><a class="btn btn-lg btn-primary" href="shop">Check out more Designs</a></p>
           </div>
         </div>
       </div>
-      <div class="carousel-item" style= "background-image:url('orange');">
-        
-		
+      <div class="carousel-item" style= "background-image:url({{url_for('static', filename='images/orange.png')}});">
+
+
         <div class="container">
           <div class="carousel-caption text-end">
-            <h1>Another ishoes unique design</h1>
-            <p>Our company wants to make you love shoes just as much as we do</p>
+            <h1 style="color:black;">Another ishoes unique design</h1>
+            <p style="color:black;">Our company wants to make you love shoes just as much as we do</p>
             <p><a class="btn btn-lg btn-primary" href="shop">Browse gallery</a></p>
           </div>
         </div>
@@ -144,19 +144,19 @@ body {
   </div>
 
 
- 
+
   <div class="container marketing">
 
     <div class="row">
       <div class="col-lg-4">
-        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+        <img src= "{{ url_for('static', filename='images/Robert.png') }}"<title></title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em"></text></img>
 
         <h2>Founder 1</h2>
         <p>Robert </p>
         <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
       </div>
       <div class="col-lg-4">
-        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+        <img src="{{ url_for('static', filename='images/Audrey.png') }}"<title></title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em"></text></img>
 
         <h2>Founder 2</h2>
         <p>Audrey</p>
