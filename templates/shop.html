@@ -12,45 +12,56 @@
 <style>
     /* Columns */
     .left-column {
+    float: left;
       width:33%;
-      position: relative;
     }
 
-    .left-column, .middle-column,
-     .right-column img {
-  width: 100%;
-  position: absolute;
-  opacity: 1;
-}
 
     .middle-column {
+    float: left;
         width: 34%;
-        position: relative;
     }
 
     .right-column {
+    float: left;
       width: 33%;
-      margin-top: 60px;
     }
+
+        /* Clear floats after the columns */
+        .row:after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+
+        @media screen and (max-width: 600px) {
+  .left-column, .middle-column, .right-column {
+    width: 100%;
+  }
+}
 
 </style>
 
-<div class="left-column">
-    <img data-image="white" class="active" src="{{ url_for('static', filename='images/white.png') }}" alt="">
+<div class="row">
+  <div class="left-column">
+    <img data-image="white" class="active" src="{{ url_for('static', filename='images/white.png') }}" width = "500" height = "300" alt="">
     <a href="{{ url_for('shop_id', item_id=0) }}" class="btn btn-primary">Shop for Custom Nike Air Force 1's</a>
     <span>$150</span>
 </div>
 
 <div class="middle-column">
-    <img data-image="white" class="active" src="{{ url_for('static', filename='images/white_vans.png') }}" alt="">
+    <img data-image="white" class="active" src="{{ url_for('static', filename='images/white_vans.png') }}" width = "500" height = "300" alt="">
     <a href="{{ url_for('shop_id', item_id=1) }}" class="btn btn-primary">Shop for Custom Vans</a>
     <span>$90</span>
 </div>
 
 <div class="right-column">
-    <img data-image="white" class="active" src="{{ url_for('static', filename='images/white_converse.png') }}" alt="">
+    <img data-image="white" class="active" src="{{ url_for('static', filename='images/white_converse.png') }}" width = "500" height = "300" alt="">
     <a href="{{ url_for('shop_id', item_id=2) }}" class="btn btn-primary">Shop for Custom Converse</a>
     <span>$90</span>
 </div>
+</div>
+
+
 
 {% endblock %}
