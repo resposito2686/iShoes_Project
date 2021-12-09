@@ -80,6 +80,46 @@ body {
     font-size: 50px;
   }
 }
+
+:root {
+  --jumbotron-padding-y: 3rem;
+}
+
+.jumbotron {
+  padding-top: var(--jumbotron-padding-y);
+  padding-bottom: var(--jumbotron-padding-y);
+  margin-bottom: 0;
+  background-color: #fff;
+}
+@media (min-width: 768px) {
+  .jumbotron {
+    padding-top: calc(var(--jumbotron-padding-y) * 2);
+    padding-bottom: calc(var(--jumbotron-padding-y) * 2);
+  }
+}
+
+.jumbotron p:last-child {
+  margin-bottom: 0;
+}
+
+.jumbotron-heading {
+  font-weight: 300;
+}
+
+.jumbotron .container {
+  max-width: 40rem;
+}
+
+footer {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+footer p {
+  margin-bottom: .25rem;
+}
+
+.box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
 </style>
 
     <hr>
@@ -94,11 +134,11 @@ body {
     </div>
 <main>
 
-  <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+  <div id="myCarousel2" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="#myCarousel2" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#myCarousel2" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#myCarousel2" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
     <div class="carousel-inner">
       <div class="carousel-item active" style= "background-image:url({{url_for('static', filename='images/blue.png')}});">
@@ -143,6 +183,121 @@ body {
     </button>
   </div>
 
+  <hr>
+
+      <hr>
+ <section class="jumbotron text-center">
+        <div class="container">
+          <h1 class="jumbotron-heading">iShoes, the future of shoes</h1>
+          <p class="lead text-muted">iShoes is a non-profit company based in San Diego California founded by 3 Compe students whos only passion is shoes</p>
+          <p>
+            <a href="shop" class="btn btn-primary my-2">Buy our shoes</a>
+            <a href="login" class="btn btn-secondary my-2">Create and account</a>
+          </p>
+        </div>
+      </section>
+  <hr>
+
+  <div class="album py-5 bg-light">
+        <div class="container">
+
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card mb-4 box-shadow">
+                <img class="card-img-top" src="{{ url_for('static', filename='images/Robert.png') }}" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text">I want to be able to make shoes simpler for everyone. I love shoes</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Like</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Dislike</button>
+                    </div>
+                    <small class="text-muted">Robert</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card mb-4 box-shadow">
+                <img class="card-img-top" src="{{ url_for('static', filename='images/Audrey.png') }}" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text">iShoes has been a life-changing event for me since I've been able to fully express my love for shoes on a creative way </p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Like</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Dislike</button>
+                    </div>
+                    <small class="text-muted">Audrey</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card mb-4 box-shadow">
+                <img class="card-img-top" src="{{ url_for('static', filename='images/evaristo.png') }}" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text">I like shoes!</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Like</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Dislike</button>
+                    </div>
+                    <small class="text-muted">Evaristo</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+  <hr>
+  <hr>
+    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active" style= "background-image:url({{url_for('static', filename='images/red_vans.png')}});">
+
+        <div class="container">
+          <div class="carousel-caption text-start">
+            <h1 style="color:black;">iShoes limited edition design</h1>
+            <p style="color:black;">This shoe can make you jump higher</p>
+            <p><a class="btn btn-lg btn-primary" href="login">Sign up today</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item" style= "background-image:url({{url_for('static', filename='images/orange_vans.png')}});">
+
+        <div class="container">
+          <div class="carousel-caption">
+            <h1 style="color:black;">Another ishoes unique design</h1>
+            <p style="color:black;">This shoe has bluetooth</p>
+            <p><a class="btn btn-lg btn-primary" href="shop">Check out more Designs</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item" style= "background-image:url({{url_for('static', filename='images/blue_converse.png')}});">
+
+
+        <div class="container">
+          <div class="carousel-caption text-end">
+            <h1 style="color:black;">Another ishoes unique design</h1>
+            <p style="color:black;">This picture shows one of our favorite designs </p>
+            <p><a class="btn btn-lg btn-primary" href="shop">Browse gallery</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
 
 
   <div class="container marketing">
@@ -171,8 +326,9 @@ body {
       </div>
     </div>
   </div>
-
-
+          </div>
+        </div>
+  </div>
   <!-- FOOTER -->
   <footer class="container">
     <p class="float-end"><a href="#">Back to top</a></p>
