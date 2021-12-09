@@ -77,7 +77,7 @@ image_folder = os.path.join('static', 'images')
 
 #: MySQL connection
 try:
-    cnx = mysql.connector.connect(user='root', password='password123', host='localhost', database='ishoesdb')
+    cnx = mysql.connector.connect(user='root', password='zxcASDqwe1@3', host='localhost', database='ishoesdb')
 except mysql.connector.Error as err:
     if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
         print("MYSQL ERROR: Something is wrong with your user name or password")
