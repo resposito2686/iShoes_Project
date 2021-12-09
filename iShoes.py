@@ -151,7 +151,6 @@ def shop_id(item_id):
     cursor.execute('SELECT * FROM shoes WHERE modelID = %s', [item_id])
     data = cursor.fetchone()
     cursor.close()
-
     if request.method == 'POST':
         if 'color' in request.form:
             session['color_choice'] = request.form['color']
@@ -164,7 +163,6 @@ def shop_id(item_id):
                 session['cart'] = []
             session['cart'].append([data[1], data[2], session['color_choice'], request.form['size'], data[5]])
             session.pop('color_choice')
-            print(session['cart'])
             return render_template('shop_id.html', username=session['username'], cart_count=session['cart_count'],
                                    item_id=item_id, shoe_brand=data[1], shoe_model=data[2], added_to_cart=True)
 
@@ -209,9 +207,11 @@ def checkout():
             
         cur_date = date.today()
         cur_date = cur_date.strftime("%Y-%m-%d")
-        cursor.execute('INSERT into orders (userID, orderItems, creditCardNum, creditCardExp, creditCardSec, orderDate)'
-                       'values (%s, %s, %s, %s, %s, %s)',
-                       [user_id, items, form.card_number.data, form.card_exp.data, form.card_sec.data, cur_date])
+        cursor.execute('INSERT into orders (userID, orderItems, creditCardNum, creditCardExp, creditCardSec,'
+                       'orderDate, total)'
+                       'values (%s, %s, %s, %s, %s, %s, %s)',
+                       [user_id, items, form.card_number.data, form.card_exp.data, form.card_sec.data, cur_date,
+                        session['total']])
         cnx.commit()
         return redirect(url_for('order'))
 
@@ -291,24 +291,6 @@ def logout():
     session['username'] = 'Guest'
     return redirect(url_for('home'))
 
-
-'''
-@app.route('/data')
-def data():
-
-    shoe_colors = ['red', 'blue', 'black', 'orange', 'white']
-    for i in shoe_colors:
-        x = 5
-        while (x != 13):
-            cursor = cnx.cursor()
-            cursor.execute('INSERT into shoes '
-                           '(shoeBrand, shoeModel, shoeColor, shoeSize, shoePrice, stock) '
-                           'values (%s, %s, %s, %s, %s, %s)',
-                           ['Nike Sneakers', 'Custom Air Force 1', i, x, 150.00, 3])
-            cnx.commit()
-            x += 1
-    return '<p> DONE </p>'
-'''
 
 if __name__ == '__main__':
     app.run()

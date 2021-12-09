@@ -27,13 +27,14 @@ CREATE TABLE `orders` (
   `userID` int unsigned NOT NULL,
   `orderItems` varchar(255) NOT NULL,
   `creditCardNum` varchar(16) NOT NULL,
-  `creditCardExp` varchar(4) NOT NULL,
+  `creditCardExp` varchar(5) NOT NULL,
   `creditCardSec` varchar(3) NOT NULL,
   `orderDate` date NOT NULL,
+  `total` decimal(7,2) NOT NULL,
   PRIMARY KEY (`orderID`),
   KEY `userID_idx` (`userID`),
   CONSTRAINT `userID` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,6 +43,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+INSERT INTO `orders` VALUES (1,2,'11 30','7676555444532231','05/25','198','2021-04-07',300.00),(2,2,'13 25','7676555444532231','05/25','198','2021-09-21',300.00),(3,2,'5 22 27','7676555444532231','05/25','198','2021-12-08',450.00);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -62,7 +64,7 @@ CREATE TABLE `shoes` (
   `stock` int NOT NULL,
   `modelID` int unsigned NOT NULL,
   PRIMARY KEY (`shoeID`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,7 +73,7 @@ CREATE TABLE `shoes` (
 
 LOCK TABLES `shoes` WRITE;
 /*!40000 ALTER TABLE `shoes` DISABLE KEYS */;
-INSERT INTO `shoes` VALUES (1,'Nike Sneakers','Custom Air Force 1','red',5,150.00,3,0),(2,'Nike Sneakers','Custom Air Force 1','red',6,150.00,3,0),(3,'Nike Sneakers','Custom Air Force 1','red',7,150.00,3,0),(4,'Nike Sneakers','Custom Air Force 1','red',8,150.00,3,0),(5,'Nike Sneakers','Custom Air Force 1','red',9,150.00,3,0),(6,'Nike Sneakers','Custom Air Force 1','red',10,150.00,3,0),(7,'Nike Sneakers','Custom Air Force 1','red',11,150.00,3,0),(8,'Nike Sneakers','Custom Air Force 1','red',12,150.00,3,0),(9,'Nike Sneakers','Custom Air Force 1','blue',5,150.00,3,0),(10,'Nike Sneakers','Custom Air Force 1','blue',6,150.00,3,0),(11,'Nike Sneakers','Custom Air Force 1','blue',7,150.00,3,0),(12,'Nike Sneakers','Custom Air Force 1','blue',8,150.00,3,0),(13,'Nike Sneakers','Custom Air Force 1','blue',9,150.00,3,0),(14,'Nike Sneakers','Custom Air Force 1','blue',10,150.00,3,0),(15,'Nike Sneakers','Custom Air Force 1','blue',11,150.00,3,0),(16,'Nike Sneakers','Custom Air Force 1','blue',12,150.00,3,0),(17,'Nike Sneakers','Custom Air Force 1','black',5,150.00,3,0),(18,'Nike Sneakers','Custom Air Force 1','black',6,150.00,3,0),(19,'Nike Sneakers','Custom Air Force 1','black',7,150.00,3,0),(20,'Nike Sneakers','Custom Air Force 1','black',8,150.00,3,0),(21,'Nike Sneakers','Custom Air Force 1','black',9,150.00,3,0),(22,'Nike Sneakers','Custom Air Force 1','black',10,150.00,3,0),(23,'Nike Sneakers','Custom Air Force 1','black',11,150.00,3,0),(24,'Nike Sneakers','Custom Air Force 1','black',12,150.00,3,0),(25,'Nike Sneakers','Custom Air Force 1','orange',5,150.00,3,0),(26,'Nike Sneakers','Custom Air Force 1','orange',6,150.00,3,0),(27,'Nike Sneakers','Custom Air Force 1','orange',7,150.00,3,0),(28,'Nike Sneakers','Custom Air Force 1','orange',8,150.00,3,0),(29,'Nike Sneakers','Custom Air Force 1','orange',9,150.00,3,0),(30,'Nike Sneakers','Custom Air Force 1','orange',10,150.00,3,0),(31,'Nike Sneakers','Custom Air Force 1','orange',11,150.00,3,0),(32,'Nike Sneakers','Custom Air Force 1','orange',12,150.00,3,0),(33,'Nike Sneakers','Custom Air Force 1','white',5,150.00,3,0),(34,'Nike Sneakers','Custom Air Force 1','white',6,150.00,3,0),(35,'Nike Sneakers','Custom Air Force 1','white',7,150.00,3,0),(36,'Nike Sneakers','Custom Air Force 1','white',8,150.00,3,0),(37,'Nike Sneakers','Custom Air Force 1','white',9,150.00,3,0),(38,'Nike Sneakers','Custom Air Force 1','white',10,150.00,3,0),(39,'Nike Sneakers','Custom Air Force 1','white',11,150.00,3,0),(40,'Nike Sneakers','Custom Air Force 1','white',12,150.00,3,0);
+INSERT INTO `shoes` VALUES (1,'Nike Sneakers','Custom Air Force 1','red',5,150.00,3,0),(2,'Nike Sneakers','Custom Air Force 1','red',6,150.00,3,0),(3,'Nike Sneakers','Custom Air Force 1','red',7,150.00,3,0),(4,'Nike Sneakers','Custom Air Force 1','red',8,150.00,3,0),(5,'Nike Sneakers','Custom Air Force 1','red',9,150.00,3,0),(6,'Nike Sneakers','Custom Air Force 1','red',10,150.00,3,0),(7,'Nike Sneakers','Custom Air Force 1','red',11,150.00,3,0),(8,'Nike Sneakers','Custom Air Force 1','red',12,150.00,3,0),(9,'Nike Sneakers','Custom Air Force 1','blue',5,150.00,3,0),(10,'Nike Sneakers','Custom Air Force 1','blue',6,150.00,3,0),(11,'Nike Sneakers','Custom Air Force 1','blue',7,150.00,3,0),(12,'Nike Sneakers','Custom Air Force 1','blue',8,150.00,3,0),(13,'Nike Sneakers','Custom Air Force 1','blue',9,150.00,3,0),(14,'Nike Sneakers','Custom Air Force 1','blue',10,150.00,3,0),(15,'Nike Sneakers','Custom Air Force 1','blue',11,150.00,3,0),(16,'Nike Sneakers','Custom Air Force 1','blue',12,150.00,3,0),(17,'Nike Sneakers','Custom Air Force 1','black',5,150.00,3,0),(18,'Nike Sneakers','Custom Air Force 1','black',6,150.00,3,0),(19,'Nike Sneakers','Custom Air Force 1','black',7,150.00,3,0),(20,'Nike Sneakers','Custom Air Force 1','black',8,150.00,3,0),(21,'Nike Sneakers','Custom Air Force 1','black',9,150.00,3,0),(22,'Nike Sneakers','Custom Air Force 1','black',10,150.00,3,0),(23,'Nike Sneakers','Custom Air Force 1','black',11,150.00,3,0),(24,'Nike Sneakers','Custom Air Force 1','black',12,150.00,3,0),(25,'Nike Sneakers','Custom Air Force 1','orange',5,150.00,3,0),(26,'Nike Sneakers','Custom Air Force 1','orange',6,150.00,3,0),(27,'Nike Sneakers','Custom Air Force 1','orange',7,150.00,3,0),(28,'Nike Sneakers','Custom Air Force 1','orange',8,150.00,3,0),(29,'Nike Sneakers','Custom Air Force 1','orange',9,150.00,3,0),(30,'Nike Sneakers','Custom Air Force 1','orange',10,150.00,3,0),(31,'Nike Sneakers','Custom Air Force 1','orange',11,150.00,3,0),(32,'Nike Sneakers','Custom Air Force 1','orange',12,150.00,3,0),(33,'Nike Sneakers','Custom Air Force 1','white',5,150.00,3,0),(34,'Nike Sneakers','Custom Air Force 1','white',6,150.00,3,0),(35,'Nike Sneakers','Custom Air Force 1','white',7,150.00,3,0),(36,'Nike Sneakers','Custom Air Force 1','white',8,150.00,3,0),(37,'Nike Sneakers','Custom Air Force 1','white',9,150.00,3,0),(38,'Nike Sneakers','Custom Air Force 1','white',10,150.00,3,0),(39,'Nike Sneakers','Custom Air Force 1','white',11,150.00,3,0),(40,'Nike Sneakers','Custom Air Force 1','white',12,150.00,3,0),(41,'Converse','Chuck Taylor Allstars','black',5,90.00,2,1),(42,'Converse','Chuck Taylor Allstars','black',6,90.00,2,1),(43,'Converse','Chuck Taylor Allstars','black',7,90.00,2,1),(44,'Converse','Chuck Taylor Allstars','black',8,90.00,2,1),(45,'Converse','Chuck Taylor Allstars','black',9,90.00,2,1),(46,'Converse','Chuck Taylor Allstars','black',10,90.00,2,1),(47,'Converse','Chuck Taylor Allstars','black',11,90.00,2,1),(48,'Converse','Chuck Taylor Allstars','black',12,90.00,2,1),(49,'Converse','Chuck Taylor Allstars','blue',5,90.00,2,1),(50,'Converse','Chuck Taylor Allstars','blue',6,90.00,2,1),(51,'Converse','Chuck Taylor Allstars','blue',7,90.00,2,1),(52,'Converse','Chuck Taylor Allstars','blue',8,90.00,2,1),(53,'Converse','Chuck Taylor Allstars','blue',9,90.00,2,1),(54,'Converse','Chuck Taylor Allstars','blue',10,90.00,2,1),(55,'Converse','Chuck Taylor Allstars','blue',11,90.00,2,1),(56,'Converse','Chuck Taylor Allstars','blue',12,90.00,2,1),(57,'Converse','Chuck Taylor Allstars','white',5,90.00,2,1),(58,'Converse','Chuck Taylor Allstars','white',6,90.00,2,1),(59,'Converse','Chuck Taylor Allstars','white',7,90.00,2,1),(60,'Converse','Chuck Taylor Allstars','white',8,90.00,2,1),(61,'Converse','Chuck Taylor Allstars','white',9,90.00,2,1),(62,'Converse','Chuck Taylor Allstars','white',10,90.00,2,1),(63,'Converse','Chuck Taylor Allstars','white',11,90.00,2,1),(64,'Converse','Chuck Taylor Allstars','white',12,90.00,2,1),(65,'Vans','Old Skools','black',5,90.00,5,2),(66,'Vans','Old Skools','black',6,90.00,5,2),(67,'Vans','Old Skools','black',7,90.00,5,2),(68,'Vans','Old Skools','black',8,90.00,5,2),(69,'Vans','Old Skools','black',9,90.00,5,2),(70,'Vans','Old Skools','black',10,90.00,5,2),(71,'Vans','Old Skools','black',11,90.00,5,2),(72,'Vans','Old Skools','black',12,90.00,5,2),(73,'Vans','Old Skools','blue',5,90.00,5,2),(74,'Vans','Old Skools','blue',6,90.00,5,2),(75,'Vans','Old Skools','blue',7,90.00,5,2),(76,'Vans','Old Skools','blue',8,90.00,5,2),(77,'Vans','Old Skools','blue',9,90.00,5,2),(78,'Vans','Old Skools','blue',10,90.00,5,2),(79,'Vans','Old Skools','blue',11,90.00,5,2),(80,'Vans','Old Skools','blue',12,90.00,5,2),(81,'Vans','Old Skools','white',5,90.00,5,2),(82,'Vans','Old Skools','white',6,90.00,5,2),(83,'Vans','Old Skools','white',7,90.00,5,2),(84,'Vans','Old Skools','white',8,90.00,5,2),(85,'Vans','Old Skools','white',9,90.00,5,2),(86,'Vans','Old Skools','white',10,90.00,5,2),(87,'Vans','Old Skools','white',11,90.00,5,2),(88,'Vans','Old Skools','white',12,90.00,5,2);
 /*!40000 ALTER TABLE `shoes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,4 +118,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-07 12:49:11
+-- Dump completed on 2021-12-08 20:36:50

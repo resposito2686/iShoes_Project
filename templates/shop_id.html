@@ -214,6 +214,7 @@
 <main class="container">
 
   <!-- Left Column / Shoe Image -->
+  {% if item_id == '0' %}
   <div class="left-column">
     {% if color_choice == 'white' %}
     <img data-image="white" class="active" src="{{ url_for('static', filename='images/white.png') }}" alt="">
@@ -228,6 +229,34 @@
     {% endif %}
   </div>
 
+  {% elif item_id == '1' %}
+  <div class="left-column">
+    {% if color_choice == 'white' %}
+    <img data-image="white" class="active" src="{{ url_for('static', filename='images/white_converse.png') }}" alt="">
+    {% elif color_choice == 'blue' %}
+    <img data-image="blue" class="active" src="{{ url_for('static', filename='images/blue_converse.png') }}" alt="">
+    {% else %}
+    <img data-image="black" class="active" src="{{ url_for('static', filename='images/black_converse.png') }}" alt="">
+    {% endif %}
+  </div>
+
+  {% elif item_id == '2' %}
+  <div class="left-column">
+    {% if color_choice == 'white' %}
+    <img data-image="white" class="active" src="{{ url_for('static', filename='images/white_vans.png') }}" alt="">
+    {% elif color_choice == 'blue' %}
+    <img data-image="blue" class="active" src="{{ url_for('static', filename='images/blue_vans.png') }}" alt="">
+    {% elif color_choice == 'black' %}
+    <img data-image="black" class="active" src="{{ url_for('static', filename='images/black_vans.png') }}" alt="">
+    {% elif color_choice == 'orange' %}
+    <img data-image="orange" class="active" src="{{ url_for('static', filename='images/orange_vans.png') }}" alt="">
+    {% else %}
+    <img data-image="red" class="active" src="{{ url_for('static', filename='images/red_vans.png') }}" alt="">
+    {% endif %}
+  </div>
+  {% else %}
+  {% endif %}
+
 
   <!-- Right Column -->
   <div class="right-column">
@@ -236,7 +265,7 @@
     <div class="product-description">
       <span>{{ shoe_brand }}</span>
       <h1>{{ shoe_model }}</h1>
-      <p>Comfortable and affordable sneakers made by you. Choose the color of the swoosh and backing that you love!</p>
+      <p>Comfortable and affordable sneakers made by you. Choose the color that you love!</p>
     </div>
 
     <!-- Product Configuration -->
@@ -248,11 +277,13 @@
 
         <div class="color-choose">
           <form method="POST" action="">
+            {% if item_id == '0' or item_id == '2' %}
             <div>
               <input data-image="red" type="radio" id="red" name="color" value="red"
                      checked onclick="this.form.submit();">
               <label for="red"><span></span></label>
             </div>
+            {% endif %}
             <div>
               <input data-image="blue" type="radio" id="blue" name="color" value="blue"
                      {% if color_choice == 'blue' %} checked {% endif %} onclick="this.form.submit();">
@@ -263,11 +294,13 @@
                      {% if color_choice == 'black' %} checked {% endif %} onclick="this.form.submit();">
               <label for="black"><span></span></label>
             </div>
+            {% if item_id == '0' or item_id == '2' %}
             <div>
               <input data-image="orange" type="radio" id="orange" name="color" value="orange"
                      {% if color_choice == 'orange' %} checked {% endif %} onclick="this.form.submit();">
               <label for="orange"><span></span></label>
             </div>
+            {% endif %}
             <div>
               <input data-image="white" type="radio" id="white" name="color" value="white"
                      {% if color_choice == 'white' %} checked {% endif %} onclick="this.form.submit();">
@@ -317,7 +350,11 @@
             </label>
           </div>
           <div class="product-price">
+            {% if item_id == '1' or item_id == '2' %}
+            <span>$90</span>
+            {% else %}
             <span>$150</span>
+            {% endif %}
             <button type="button" onclick="this.form.submit();"
                     class="btn btn-primary">Add to Cart</button>
           </div>
