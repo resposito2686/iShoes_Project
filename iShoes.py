@@ -13,6 +13,22 @@ from wtforms.validators import ValidationError, DataRequired, Length, EqualTo, E
 import mysql.connector
 from mysql.connector import errorcode
 
+app = Flask(__name__)
+app.secret_key = '11b8514a4f71eb68bf34a3a0'
+image_folder = os.path.join('static', 'images')
+
+
+#: MySQL connection
+try:
+    cnx = mysql.connector.connect(user='root', password='password123', host='localhost', database='ishoesdb')
+except mysql.connector.Error as err:
+    if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+        print("MYSQL ERROR: Something is wrong with your user name or password")
+    elif err.errno == errorcode.ER_BAD_DB_ERROR:
+        print("MYSQL ERROR: Database does not exist.")
+    else:
+        print(err)
+
 
 class LoginForm(FlaskForm):
     username = StringField(label='User Name', validators=[DataRequired(message='*Required'), Length(min=3, max=45)])
@@ -56,7 +72,6 @@ class CreateAccountForm(FlaskForm):
         for i in username.data:
             if i in illegal_chars:
                 raise ValidationError(f'Error at {i}, User Name cannot contain symbols.')
-
         cursor = cnx.cursor()
         cursor.execute('SELECT * from users WHERE userName = %s', [username.data])
         data = cursor.fetchone()
@@ -108,22 +123,6 @@ class CheckoutForm(FlaskForm):
         for i in card_sec.data:
             if i not in valid_numbers:
                 raise ValidationError(f'{card_sec.data} is not a valid security code.')
-
-
-app = Flask(__name__)
-app.secret_key = '11b8514a4f71eb68bf34a3a0'
-image_folder = os.path.join('static', 'images')
-
-#: MySQL connection
-try:
-    cnx = mysql.connector.connect(user='root', password='zxcASDqwe1@3', host='localhost', database='ishoesdb')
-except mysql.connector.Error as err:
-    if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-        print("MYSQL ERROR: Something is wrong with your user name or password")
-    elif err.errno == errorcode.ER_BAD_DB_ERROR:
-        print("MYSQL ERROR: Database does not exist.")
-    else:
-        print(err)
 
 
 @app.route('/')
@@ -203,7 +202,7 @@ def checkout():
         items = ' '.join(str(x) for x in items)
 
         if session['username'] != 'Guest':
-            cursor.execute('SELECT userID from users WHERE userName = %s', [session['username']])
+            cursor.execute('SELECT userID FROM users WHERE userName = %s', [session['username']])
             user_id = cursor.fetchone()[0]
         else:
             user_id = 0
@@ -257,9 +256,14 @@ def user_account(username):
     if session['username'] == 'Guest':
         return redirect(url_for('login'))
 
-    # PLACEHOLDER
-    orders = [['000001', 'Complete', '10/19/21', '$126.74'], ['000005', 'Complete', '10/25/21', '$21.77'],
-              ['000012', 'Complete', '10/31/21', '$74.65'], ['000025', 'Shipped', '11/04/21', '$22.32']]
+    orders = []
+    cursor = cnx.cursor()
+    cursor.execute('SELECT userID FROM users WHERE username = %s', [username])
+    data = cursor.fetchone()[0]
+    cursor.execute('SELECT * FROM orders WHERE userID = %s', [data])
+    data = cursor.fetchall()
+    for i in data:
+        orders.append([i[0], i[6], i[7]])
 
     return render_template('account.html', username=username, cart_count=session['cart_count'], orders=orders)
 
