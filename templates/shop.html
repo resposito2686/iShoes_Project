@@ -43,17 +43,14 @@
 
 <div class="middle-column">
     <img data-image="white" class="active" src="{{ url_for('static', filename='images/white_vans.png') }}" alt="">
-    <a href="{{ url_for('shop_id_vans', item_id=1) }}" class="btn btn-primary">Shop for Custom Vans</a>
+    <a href="{{ url_for('shop_id', item_id=1) }}" class="btn btn-primary">Shop for Custom Vans</a>
     <span>$90</span>
 </div>
 
 <div class="right-column">
     <img data-image="white" class="active" src="{{ url_for('static', filename='images/white_converse.png') }}" alt="">
-    <a href="{{ url_for('shop_id_converse', item_id=2) }}" class="btn btn-primary">Shop for Custom Converse</a>
+    <a href="{{ url_for('shop_id', item_id=2) }}" class="btn btn-primary">Shop for Custom Converse</a>
     <span>$90</span>
 </div>
-
-
-
 
 {% endblock %}

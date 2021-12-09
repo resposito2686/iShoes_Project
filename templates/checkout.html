@@ -9,5 +9,83 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Checkout Page</h1>
+    <p class="h2 mt-5 text-center">Checkout</p>
+
+    <div class="container col-6 mt-5">
+        <form method="POST" action="">
+            {{ form.csrf_token }}
+            {% if logged_in == true %}
+            <div class="row mb-3">
+                <div class="col-4">
+                    {{ form.first_name.data }}
+                </div>
+                <div class="col-8">
+                    {{ form.last_name.data }}
+                </div>
+            </div>
+            <div class="mb-3 col-12">
+                {{ form.address.data }}
+            </div>
+            <div class="row mb-3">
+                <div class="col-7">
+                    {{ form.city.data }}
+                </div>
+                <div class="col-2">
+                    {{ form.state.data }}
+                </div>
+                <div class="col-3">
+                    {{ form.zip_code.data }}
+                </div>
+            </div>
+            {% else %}
+            <div class="row mb-3">
+                <div class="col-4">
+                    {{ form.first_name.label }}
+                    {{ form.first_name(class="form-control") }}
+                </div>
+                <div class="col-8">
+                    {{ form.last_name.label }}
+                    {{ form.last_name(class="form-control") }}
+                </div>
+            </div>
+            <div class="mb-3 col-12">
+                {{ form.address.label }}
+                {{ form.address(class="form-control") }}
+            </div>
+            <div class="row mb-3">
+                <div class="col-7">
+                    {{ form.city.label }}
+                    {{ form.city(class="form-control") }}
+                </div>
+                <div class="col-2">
+                    {{ form.state.label }}
+                    {{ form.state(class="form-control") }}
+                </div>
+                <div class="col-3">
+                    {{ form.zip_code.label }}
+                    {{ form.zip_code(class="form-control") }}
+                </div>
+            </div>
+            {% endif %}
+            <div class="row mb-3 col-8">
+                    {{ form.card_number.label }}
+                    {{ form.card_number(class="form-control") }}
+            </div>
+            <div class="row mb-3">
+                <div class="col-3">
+                    {{ form.card_exp.label }}
+                    {{ form.card_exp(class="form-control") }}
+                </div>
+                <div class="col-3">
+                    {{ form.card_sec.label }}
+                    {{ form.card_sec(class="form-control") }}
+                </div>
+            </div>
+            <div class="row ml-auto mb-5">
+                <div class="col-auto">
+                    {{ form.submit(class="btn btn-primary")}}
+                </div>
+            </div>
+        </form>
+    </div>
 {% endblock %}

@@ -1,6 +1,8 @@
+import datetime
 import os
 import hashlib
 from decimal import Decimal
+from datetime import date
 
 from flask import Flask, render_template, redirect, url_for, session, request
 
@@ -18,7 +20,6 @@ class LoginForm(FlaskForm):
     submit = SubmitField(label='Login')
 
     def validate_username(self, username):
-
         cursor = cnx.cursor()
         cursor.execute('SELECT * from users WHERE userName = %s', [username.data])
         data = cursor.fetchone()
@@ -69,6 +70,44 @@ class CreateAccountForm(FlaskForm):
                         "WV", "WI", "WY"]
         if state.data not in valid_states:
             raise ValidationError(f'{state.data} is not a valid state.')
+
+
+class CheckoutForm(FlaskForm):
+    first_name = StringField(label='First Name', validators=[DataRequired(message='*Required'), Length(min=3, max=45)])
+    last_name = StringField(label='Last Name', validators=[DataRequired(message='*Required'), Length(min=3, max=45)])
+    address = StringField(label='Street Address', validators=[DataRequired(message='*Required'),
+                                                  Length(min=3, max=100)])
+    city = StringField(label='City', validators=[DataRequired(message='*Required'), Length(min=3, max=45)])
+    state = StringField(label='State', validators=[DataRequired(message='*Required'), Length(min=2, max=2)])
+    zip_code = StringField(label='Zip Code', validators=[DataRequired(message='*Required'),
+                                             Length(min=5, max=5, message='Zip Code must be 5 digits')])
+    card_number = StringField(label='Card Number', validators=[DataRequired(message='*Required'),
+                                                   Length(min=16, max=16, message="Invalid Credit Card Number")])
+    card_exp = StringField(label='Exp Date', validators=[DataRequired(message='*Required'), Length(min=5, max=5)])
+    card_sec = StringField(label='Security Code', validators=[DataRequired(message='*Required'), Length(min=3, max=3)])
+
+    submit = SubmitField(label='Submit Order')
+
+    def validate_card_number(self, card_number):
+        valid_numbers = '0123456789'
+        for i in card_number.data:
+            if i not in valid_numbers:
+                raise ValidationError(f'{card_number.data} is not a valid card number.')
+
+    def validate_card_exp(self, card_exp):
+        valid_months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+        if card_exp.data[:1] not in valid_months:
+            raise ValidationError(f'{card_exp.data[:1]} is not a valid month.')
+        if card_exp.data[2] != '/':
+            raise ValidationError('Place a slash in between the month and year (i.e. \'04/28\')')
+        if not card_exp.data[3:] > '21':
+            raise ValidationError(f'Card expired in {card_exp.data[3:]}, please use a valid card.')
+
+    def validate_card_sec(self, card_sec):
+        valid_numbers = '0123456789'
+        for i in card_sec.data:
+            if i not in valid_numbers:
+                raise ValidationError(f'{card_sec.data} is not a valid security code.')
 
 
 app = Flask(__name__)
@@ -137,21 +176,66 @@ def shop_id(item_id):
 @app.route('/cart', methods=['GET', 'POST'])
 def cart():
     if 'cart' in session:
-        total = Decimal(0.00)
+        session['total'] = Decimal(0.00)
         for i in session['cart']:
-            total += Decimal(i[4])
+            session['total'] += Decimal(i[4])
         if request.method == 'POST':
             session['cart'].pop(int(request.form.get('remove')))
             session['cart_count'] -= 1
             return redirect(url_for('cart'))
         return render_template('cart.html', username=session['username'], cart_count=session['cart_count'],
-                               cart=session['cart'], total=total)
+                               cart=session['cart'], total=session['total'])
     return render_template('cart.html', username=session['username'], cart_count=session['cart_count'])
 
 
-@app.route('/checkout')
+@app.route('/checkout', methods=['GET', 'POST'])
 def checkout():
-    return render_template('checkout.html', username=session['username'], cart_count=session['cart_count'])
+    form = CheckoutForm()
+    if request.method == 'POST':
+        items = []
+        cursor = cnx.cursor()
+
+        for i in session['cart']:
+            cursor.execute('SELECT shoeID FROM shoes WHERE shoeBrand = %s AND shoeModel = %s '
+                           'AND shoeColor = %s AND shoeSize = %s', [i[0], i[1], i[2], i[3]])
+            items.append(cursor.fetchone())
+        items = [x[0] for x in items]
+        items = ' '.join(str(x) for x in items)
+
+        if session['username'] != 'Guest':
+            cursor.execute('SELECT userID from users WHERE userName = %s', [session['username']])
+            user_id = cursor.fetchone()[0]
+        else:
+            user_id = 0
+            
+        cur_date = date.today()
+        cur_date = cur_date.strftime("%Y-%m-%d")
+        cursor.execute('INSERT into orders (userID, orderItems, creditCardNum, creditCardExp, creditCardSec, orderDate)'
+                       'values (%s, %s, %s, %s, %s, %s)',
+                       [user_id, items, form.card_number.data, form.card_exp.data, form.card_sec.data, cur_date])
+        cnx.commit()
+        return redirect(url_for('order'))
+
+    if session['username'] != 'Guest':
+        cursor = cnx.cursor()
+        cursor.execute('SELECT * from users WHERE userName = %s', [session['username']])
+        data = cursor.fetchone()
+
+        form.first_name.data = data[3]
+        form.last_name.data = data[4]
+        form.address.data = data[6]
+        form.city.data = data[7]
+        form.state.data = data[8]
+        form.zip_code.data = data[9]
+        return render_template('checkout.html', username=session['username'], cart_count=session['cart_count'],
+                               total=session['total'], form=form, logged_in=True)
+    return render_template('checkout.html', username=session['username'], cart_count=session['cart_count'],
+                           total=session['total'], form=form, logged_in=False)
+
+
+@app.route('/order')
+def order():
+    return '<h1> ORDER COMPLETE </h1>'
 
 
 @app.route('/login', methods=['GET', 'POST'])
